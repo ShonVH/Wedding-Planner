@@ -4,129 +4,167 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>JS & SVH — Wedding Planner 2026</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --bg: #faf9f7;
-    --bg2: #f2f0ec;
-    --bg3: #fff;
-    --text: #1a1a1a;
-    --text2: #555;
-    --text3: #999;
-    --border: rgba(0,0,0,0.1);
-    --border2: rgba(0,0,0,0.15);
-    --success-bg: #eaf3de;
-    --success-border: #639922;
-    --success-text: #3b6d11;
-    --radius-md: 8px;
-    --radius-lg: 12px;
-  }
-  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
-  .wrap { max-width: 860px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#faf9f7;--bg2:#f2f0ec;--bg3:#fff;
+  --text:#1a1a1a;--text2:#555;--text3:#999;
+  --border:rgba(0,0,0,0.1);--border2:rgba(0,0,0,0.18);
+  --radius:8px;--radius-lg:12px;
+  --red:#A32D2D;--amber:#854F0B;--green:#3B6D11;
+  --red-bg:#FCEBEB;--amber-bg:#FAEEDA;--green-bg:#EAF3DE;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.wrap{max-width:900px;margin:0 auto;padding:2rem 1.25rem 5rem}
+.hdr{margin-bottom:1.5rem;display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.htitle{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:400;letter-spacing:.02em}
+.hsub{font-size:12px;color:var(--text2);margin-top:4px;font-weight:300}
+[contenteditable="true"]:focus{outline:2px dashed rgba(0,0,0,0.2);border-radius:3px;padding:1px 3px}
+.edit-btn{font-size:12px;padding:6px 14px;border-radius:var(--radius);border:1px solid var(--border2);background:var(--bg3);cursor:pointer;color:var(--text2);white-space:nowrap;font-family:'DM Sans',sans-serif}
+.edit-btn.on{background:var(--text);color:#fff;border-color:var(--text)}
+.edit-hint{font-size:11px;color:var(--text3);margin-top:.4rem;display:none}
+.edit-on .edit-hint{display:block}
+.cd{display:flex;gap:10px;margin-bottom:1.5rem;flex-wrap:wrap}
+.cdc{background:var(--bg2);border-radius:var(--radius);padding:12px 16px;flex:1;min-width:90px;text-align:center}
+.cdn{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:500}
+.cdl{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-top:1px}
+.tabs{display:flex;gap:2px;flex-wrap:wrap;border-bottom:1px solid var(--border);margin-bottom:1.25rem}
+.tab{padding:8px 14px;font-size:12px;color:var(--text2);cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;font-family:'DM Sans',sans-serif}
+.tab:hover{color:var(--text)}.tab.on{color:var(--text);border-bottom-color:var(--text);font-weight:500}
+.sec{display:none}.sec.on{display:block}
+.save-bar{font-size:11px;color:var(--text3);text-align:right;margin-bottom:.5rem}
 
-  /* HEADER */
-  .hdr { margin-bottom: 1.5rem; }
-  .htitle { font-family: 'Cormorant Garamond', serif; font-size: 30px; font-weight: 400; color: var(--text); letter-spacing: .02em; }
-  .hsub { font-size: 12px; color: var(--text2); margin-top: 4px; font-weight: 300; }
+/* phases */
+.pb{border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:.75rem;background:var(--bg3)}
+.ph{padding:11px 14px;display:flex;align-items:center;gap:9px;cursor:pointer;user-select:none}
+.ph:hover{background:var(--bg2)}
+.pdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.edit-on .pdot{cursor:pointer;outline:2px dashed transparent}
+.edit-on .pdot:hover{outline-color:var(--border2)}
+.pn{font-size:13px;font-weight:500;flex:1;min-width:0}
+.pm{font-size:11px;color:var(--text2);white-space:nowrap}
+.pch{font-size:11px;color:var(--text3);transition:transform .2s;flex-shrink:0}
+.pch.o{transform:rotate(90deg)}
+.p-del{font-size:11px;color:var(--red);cursor:pointer;flex-shrink:0;display:none;padding:2px 7px;border-radius:4px;background:var(--red-bg)}
+.p-del:hover{background:var(--red);color:#fff}
+.edit-on .p-del{display:block}
+.pbd{display:none;border-top:1px solid var(--border)}.pbd.o{display:block}
 
-  /* COUNTDOWN */
-  .cd { display: flex; gap: 10px; margin-bottom: 1.5rem; flex-wrap: wrap; }
-  .cdc { background: var(--bg2); border-radius: var(--radius-md); padding: 12px 16px; flex: 1; min-width: 90px; text-align: center; }
-  .cdn { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 500; color: var(--text); }
-  .cdl { font-size: 10px; color: var(--text2); text-transform: uppercase; letter-spacing: .08em; margin-top: 1px; }
+/* tasks */
+.tr{display:grid;grid-template-columns:16px 1fr auto auto;gap:8px;align-items:start;padding:9px 14px;border-bottom:1px solid var(--border)}
+.tr:last-child{border-bottom:none}
+.chk{width:14px;height:14px;border-radius:3px;border:1px solid var(--border2);cursor:pointer;flex-shrink:0;margin-top:3px;display:flex;align-items:center;justify-content:center;font-size:9px;background:none}
+.chk.dn{background:var(--green-bg);border-color:var(--green);color:var(--green)}
+.tt{font-size:13px;line-height:1.5}.tt.dn{text-decoration:line-through;color:var(--text3)}
+.tn{font-size:11px;color:var(--text2);margin-top:2px}
+.twho{font-size:10px;color:var(--text3);margin-top:1px}
+.bdg{font-size:10px;padding:2px 7px;border-radius:8px;white-space:nowrap;font-weight:500;flex-shrink:0;align-self:start;margin-top:2px}
+.edit-on .bdg{cursor:pointer}.edit-on .bdg:hover{opacity:.75}
+.bu{background:var(--red-bg);color:var(--red)}
+.bs{background:var(--amber-bg);color:var(--amber)}
+.bo{background:var(--green-bg);color:var(--green)}
+.t-del{font-size:14px;color:var(--text3);cursor:pointer;flex-shrink:0;align-self:start;margin-top:1px;display:none;line-height:1}
+.t-del:hover{color:var(--red)}
+.edit-on .t-del{display:block}
+.add-task-btn{display:none;width:100%;padding:8px 14px;font-size:12px;color:var(--text3);background:none;border:none;border-top:1px solid var(--border);cursor:pointer;text-align:left;font-family:'DM Sans',sans-serif}
+.add-task-btn:hover{color:var(--text);background:var(--bg2)}
+.edit-on .add-task-btn{display:block}
+.add-phase-btn{display:none;width:100%;padding:10px;font-size:12px;color:var(--text3);background:var(--bg3);border:1px dashed var(--border2);border-radius:var(--radius-lg);cursor:pointer;font-family:'DM Sans',sans-serif;margin-bottom:.75rem}
+.add-phase-btn:hover{color:var(--text);border-color:var(--text)}
+.edit-on .add-phase-btn{display:block}
 
-  /* TABS */
-  .tabs { display: flex; gap: 2px; flex-wrap: wrap; border-bottom: 1px solid var(--border); margin-bottom: 1.25rem; }
-  .tab { padding: 8px 14px; font-size: 12px; font-weight: 400; color: var(--text2); cursor: pointer; border: none; background: none; border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; font-family: 'DM Sans', sans-serif; transition: color .15s; }
-  .tab:hover { color: var(--text); }
-  .tab.on { color: var(--text); border-bottom-color: var(--text); font-weight: 500; }
-  .sec { display: none; } .sec.on { display: block; }
+/* color picker */
+.cpick{position:fixed;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);padding:8px;display:flex;gap:6px;flex-wrap:wrap;width:164px;z-index:999;box-shadow:0 4px 16px rgba(0,0,0,.12);display:none}
+.csw{width:20px;height:20px;border-radius:50%;cursor:pointer;border:2px solid transparent;flex-shrink:0}
+.csw:hover{transform:scale(1.2)}
 
-  /* PHASE BLOCKS */
-  .pb { border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: .75rem; background: var(--bg3); }
-  .ph { padding: 12px 16px; display: flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; }
-  .ph:hover { background: var(--bg2); }
-  .pdot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
-  .pn { font-size: 13px; font-weight: 500; color: var(--text); flex: 1; }
-  .pm { font-size: 11px; color: var(--text2); }
-  .pch { font-size: 11px; color: var(--text3); transition: transform .2s; }
-  .pch.o { transform: rotate(90deg); }
-  .pbd { display: none; border-top: 1px solid var(--border); }
-  .pbd.o { display: block; }
+/* cards */
+.ac{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.2rem;margin-bottom:.75rem;position:relative}
+.at{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:500;margin-bottom:6px}
+.ab{font-size:13px;color:var(--text2);line-height:1.7}
+.ab ul{padding-left:18px;margin-top:6px}.ab li{margin-bottom:4px}
+.ac-del{position:absolute;top:10px;right:10px;font-size:11px;color:var(--red);cursor:pointer;display:none;padding:2px 7px;border-radius:4px;background:var(--red-bg)}
+.ac-del:hover{background:var(--red);color:#fff}
+.edit-on .ac-del{display:block}
+.add-card-btn{display:none;width:100%;padding:10px;font-size:12px;color:var(--text3);background:var(--bg3);border:1px dashed var(--border2);border-radius:var(--radius-lg);cursor:pointer;font-family:'DM Sans',sans-serif;margin-bottom:.75rem}
+.add-card-btn:hover{color:var(--text);border-color:var(--text)}
+.edit-on .add-card-btn{display:block}
 
-  /* TASK ROWS */
-  .tr { display: grid; grid-template-columns: 16px 1fr auto; gap: 10px; align-items: start; padding: 10px 16px; border-bottom: 1px solid var(--border); }
-  .tr:last-child { border-bottom: none; }
-  .chk { width: 14px; height: 14px; border-radius: 3px; border: 1px solid var(--border2); cursor: pointer; flex-shrink: 0; margin-top: 2px; display: flex; align-items: center; justify-content: center; font-size: 9px; background: none; transition: background .15s; }
-  .chk.dn { background: var(--success-bg); border-color: var(--success-border); color: var(--success-text); }
-  .tt { font-size: 13px; color: var(--text); line-height: 1.5; }
-  .tt.dn { text-decoration: line-through; color: var(--text3); }
-  .tn { font-size: 11px; color: var(--text2); margin-top: 2px; }
-  .twho { font-size: 10px; color: var(--text3); margin-top: 1px; }
-  .bdg { font-size: 10px; padding: 2px 7px; border-radius: 8px; white-space: nowrap; font-weight: 500; flex-shrink: 0; }
-  .bu { background: #FCEBEB; color: #A32D2D; }
-  .bs { background: #FAEEDA; color: #854F0B; }
-  .bo { background: #EAF3DE; color: #3B6D11; }
+.sl{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);font-weight:500;margin-bottom:8px;margin-top:1.25rem}
+.sl:first-child{margin-top:0}
 
-  /* ADVICE CARDS */
-  .ac { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1rem 1.2rem; margin-bottom: .75rem; }
-  .at { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 500; color: var(--text); margin-bottom: 6px; }
-  .ab { font-size: 13px; color: var(--text2); line-height: 1.7; }
-  .ab ul { padding-left: 18px; margin-top: 6px; }
-  .ab li { margin-bottom: 4px; }
+/* quotes */
+.qg{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:9px;margin-bottom:1rem}
+.qc{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-lg);padding:11px 13px;position:relative}
+.qc-del{position:absolute;top:6px;right:7px;font-size:12px;color:var(--red);cursor:pointer;display:none}
+.edit-on .qc-del{display:block}
+.qs{font-size:13px;font-weight:500}.qd{font-size:11px;color:var(--text2);margin-top:2px}
+.qu{font-size:11px;font-weight:500;margin-top:6px}
+.ut{color:var(--red)}.us{color:var(--amber)}.uo{color:var(--green)}
+.add-qbtn{display:none;padding:11px 13px;font-size:12px;color:var(--text3);background:var(--bg3);border:1px dashed var(--border2);border-radius:var(--radius-lg);cursor:pointer;font-family:'DM Sans',sans-serif;align-items:center;justify-content:center}
+.add-qbtn:hover{color:var(--text);border-color:var(--text)}
+.edit-on .add-qbtn{display:flex}
 
-  /* SECTION LABEL */
-  .sl { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--text3); font-weight: 500; margin-bottom: 8px; margin-top: 1.25rem; }
-  .sl:first-child { margin-top: 0; }
+/* savings */
+.sg{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:9px;margin-bottom:.75rem}
+.sc{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-lg);padding:11px 13px;position:relative}
+.sc-del{position:absolute;top:6px;right:7px;font-size:12px;color:var(--red);cursor:pointer;display:none}
+.edit-on .sc-del{display:block}
+.ss{font-size:13px;font-weight:500}.sa{font-size:20px;font-family:'Cormorant Garamond',serif;margin-top:2px}.sn{font-size:11px;color:var(--text2);margin-top:2px}
 
-  /* QUOTE GRID */
-  .qg { display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 9px; margin-bottom: 1rem; }
-  .qc { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 11px 13px; }
-  .qs { font-size: 13px; font-weight: 500; color: var(--text); }
-  .qd { font-size: 11px; color: var(--text2); margin-top: 2px; }
-  .qu { font-size: 11px; font-weight: 500; margin-top: 6px; }
-  .ut { color: #A32D2D; } .us { color: #854F0B; } .uo { color: #3B6D11; }
+/* budget */
+.br{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:start;padding:9px 16px;border-bottom:1px solid var(--border);font-size:13px}
+.br:last-child{border-bottom:none}
+.bn{font-size:10px;color:var(--text2);margin-top:1px}
+.b-del{font-size:11px;color:var(--red);cursor:pointer;display:none;align-self:start;margin-top:2px}
+.edit-on .b-del{display:block}
+.btotal{display:grid;grid-template-columns:1fr auto;gap:10px;padding:11px 16px;font-size:14px;font-weight:500;background:var(--bg2)}
+.add-bbtn{display:none;width:100%;padding:9px 16px;font-size:12px;color:var(--text3);background:none;border:none;border-top:1px solid var(--border);cursor:pointer;text-align:left;font-family:'DM Sans',sans-serif}
+.add-bbtn:hover{color:var(--text);background:var(--bg2)}
+.edit-on .add-bbtn{display:block}
 
-  /* SAVINGS */
-  .sav-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 9px; margin-bottom: .75rem; }
-  .sav-c { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 11px 13px; }
-  .sav-s { font-size: 13px; font-weight: 500; color: var(--text); }
-  .sav-a { font-size: 20px; font-family: 'Cormorant Garamond', serif; color: var(--text); margin-top: 2px; }
-  .sav-n { font-size: 11px; color: var(--text2); margin-top: 2px; }
+/* guests */
+.gg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:520px){.gg{grid-template-columns:1fr}}
+.gc{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-lg);padding:10px 13px}
+.gh{font-size:11px;font-weight:500;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.gr{font-size:12px;padding:4px 0;border-bottom:1px solid var(--border);display:flex;gap:6px;align-items:center}
+.gr:last-child{border-bottom:none}
+.gnum{font-size:10px;color:var(--text3);flex-shrink:0;width:22px}
+.gname{flex:1;min-width:0}
+.g-del{font-size:12px;color:var(--text3);cursor:pointer;display:none;flex-shrink:0}
+.g-del:hover{color:var(--red)}
+.edit-on .g-del{display:block}
+.flag{color:var(--red)}
+.add-gbtn{display:none;width:100%;padding:6px 4px;font-size:11px;color:var(--text3);background:none;border:none;border-top:1px solid var(--border);cursor:pointer;text-align:left;font-family:'DM Sans',sans-serif;margin-top:4px}
+.add-gbtn:hover{color:var(--text)}
+.edit-on .add-gbtn{display:block}
 
-  /* GUEST LIST */
-  .gc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  @media(max-width:520px){ .gc-grid { grid-template-columns: 1fr; } }
-  .gc-col { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 10px 13px; }
-  .gc-head { font-size: 11px; font-weight: 500; color: var(--text2); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
-  .gc-row { font-size: 12px; color: var(--text); padding: 4px 0; border-bottom: 1px solid var(--border); display: flex; gap: 6px; align-items: baseline; }
-  .gc-row:last-child { border-bottom: none; }
-  .gc-num { font-size: 10px; color: var(--text3); flex-shrink: 0; width: 20px; }
-  .gc-plus { font-size: 10px; color: var(--text3); margin-left: auto; }
-  .flag { color: #A32D2D; }
-
-  /* BUDGET TABLE */
-  .bud-row { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: start; padding: 9px 16px; border-bottom: 1px solid var(--border); font-size: 13px; }
-  .bud-row:last-child { border-bottom: none; }
-  .bud-note { font-size: 10px; color: var(--text2); margin-top: 1px; }
-  .bud-total { display: grid; grid-template-columns: 1fr auto; gap: 10px; padding: 11px 16px; font-size: 14px; font-weight: 500; background: var(--bg2); }
-
-  /* PROGRESS */
-  .prog-wrap { height: 4px; background: var(--bg2); border-radius: 2px; margin-top: 8px; }
-  .prog-bar { height: 100%; border-radius: 2px; background: #1D9E75; }
-
-  /* SAVE INDICATOR */
-  .save-note { font-size: 11px; color: var(--text3); text-align: right; margin-bottom: 8px; }
+/* modal */
+.moverlay{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:1000;display:none;align-items:center;justify-content:center}
+.moverlay.show{display:flex}
+.mdl{background:var(--bg3);border-radius:var(--radius-lg);padding:1.5rem;width:90%;max-width:420px;box-shadow:0 8px 32px rgba(0,0,0,.15)}
+.mdl h3{font-family:'Cormorant Garamond',serif;font-size:20px;margin-bottom:1rem}
+.mdl label{font-size:12px;color:var(--text2);display:block;margin-bottom:3px;margin-top:.75rem}
+.mdl label:first-of-type{margin-top:0}
+.mdl input,.mdl textarea,.mdl select{width:100%;padding:7px 10px;border:1px solid var(--border2);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:13px;background:var(--bg);color:var(--text)}
+.mdl input:focus,.mdl textarea:focus{outline:none;border-color:var(--text)}
+.mdl textarea{resize:vertical;min-height:60px}
+.mbtns{display:flex;gap:8px;margin-top:1.25rem;justify-content:flex-end}
+.mbtns button{padding:7px 16px;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;border:1px solid var(--border2)}
+.mbcancel{background:none;color:var(--text2)}.mbok{background:var(--text);color:#fff;border-color:var(--text)}
 </style>
 </head>
 <body>
 <div class="wrap">
-
   <div class="hdr">
-    <div class="htitle">JS &amp; SVH — Wedding Planner</div>
-    <div class="hsub">21 December 2026 &nbsp;·&nbsp; The Copper Collection, The Lawns &nbsp;·&nbsp; Cape Town &nbsp;·&nbsp; 80–120 guests</div>
+    <div>
+      <div class="htitle" id="mtitle" spellcheck="false">JS &amp; SVH — Wedding Planner</div>
+      <div class="hsub" id="msub" spellcheck="false">21 December 2026 · The Copper Collection, The Lawns · Cape Town · 80–120 guests</div>
+      <div class="edit-hint">✏️ Click any text to edit it &nbsp;·&nbsp; + buttons to add &nbsp;·&nbsp; × to delete &nbsp;·&nbsp; Click badge to cycle priority &nbsp;·&nbsp; Click colour dot to change phase colour</div>
+    </div>
+    <button class="edit-btn" id="ebtn" onclick="toggleEdit()">✏️ Edit mode</button>
   </div>
 
   <div class="cd">
@@ -135,7 +173,7 @@
     <div class="cdc"><div class="cdn" id="cd2">--</div><div class="cdl">Days</div></div>
   </div>
 
-  <div class="save-note" id="save-note">Progress auto-saved in your browser</div>
+  <div class="save-bar" id="sbar">Progress auto-saved in your browser</div>
 
   <div class="tabs">
     <button class="tab on" onclick="sw('plan')">Project Plan</button>
@@ -147,387 +185,442 @@
     <button class="tab" onclick="sw('qns')">Open Questions</button>
   </div>
 
-  <!-- PROJECT PLAN -->
   <div class="sec on" id="s-plan">
-    <div id="pc"></div>
-    <div style="font-size:11px;color:var(--text3);margin-top:1rem;text-align:center">Tick tasks as you complete them — progress saves automatically in your browser</div>
+    <div id="phases-wrap"></div>
+    <button class="add-phase-btn" onclick="openPhaseModal()">+ Add new phase</button>
+    <div style="font-size:11px;color:var(--text3);margin-top:.5rem;text-align:center">Tick tasks to mark complete — progress saves automatically</div>
   </div>
+  <div class="sec" id="s-quotes"><div class="sl">Vendor quote deadlines</div><div class="qg" id="qg"></div><div id="qcards"></div></div>
+  <div class="sec" id="s-save"><div class="sl">Savings sources</div><div class="sg" id="sg"></div><div class="sl">Monthly milestone plan</div><div class="ac" style="padding:0"><div id="miles"></div></div><div id="scards"></div></div>
+  <div class="sec" id="s-budget"><div class="sl">Budget breakdown</div><div class="ac" style="padding:0"><div id="budrows"></div></div><div id="bcards"></div></div>
+  <div class="sec" id="s-guests"><div class="sl">Guest list</div><div class="gg"><div class="gc"><div class="gh">SVH side</div><div id="svh-list"></div><button class="add-gbtn" onclick="addG('svh')">+ Add guest</button></div><div class="gc"><div class="gh">JS side</div><div id="js-list"></div><button class="add-gbtn" onclick="addG('js')">+ Add guest</button></div></div><div id="gcards" style="margin-top:.75rem"></div></div>
+  <div class="sec" id="s-family"><div id="fcards"></div></div>
+  <div class="sec" id="s-qns"><div id="qncards"></div></div>
+</div>
 
-  <!-- QUOTES -->
-  <div class="sec" id="s-quotes">
-    <div class="sl">Vendor quote deadlines — act on these in order</div>
-    <div class="qg" id="qg"></div>
-    <div class="ac">
-      <div class="at">Your vendor notes</div>
-      <div class="ab"><ul>
-        <li><strong>Photography:</strong> Charl has quoted — compare at least 2 more options. Book by May 2026.</li>
-        <li><strong>DJ/Sound:</strong> Check Nugeon first. If Joshua (saxophonist) is available, book him for the canapé hour.</li>
-        <li><strong>Décor &amp; Flowers:</strong> Eike and Kelly are your leads — brief them early on colour palette.</li>
-        <li><strong>Stationery:</strong> Digital invites planned — consider using Claude to build a custom invite page.</li>
-        <li><strong>Officiant:</strong> Still undecided — who will marry you? Resolve by February 2026.</li>
-        <li><strong>Venue catering:</strong> Confirmed at R550/head for 80 guests (R44 000). Confirm final count by October 2026.</li>
-      </ul></div>
-    </div>
+<!-- Task modal -->
+<div class="moverlay" id="tmodal">
+  <div class="mdl">
+    <h3>Add task</h3>
+    <label>Task description</label><input id="mt" placeholder="What needs to be done?">
+    <label>Note (optional)</label><textarea id="mn" placeholder="Extra detail or reminder..."></textarea>
+    <label>Responsible</label><input id="mw" placeholder="JS / Shon / Both">
+    <label>Priority</label>
+    <select id="mp"><option value="bu">Now (urgent)</option><option value="bs" selected>Soon</option><option value="bo">On track</option></select>
+    <div class="mbtns"><button class="mbcancel" onclick="closeT()">Cancel</button><button class="mbok" onclick="submitT()">Add task</button></div>
   </div>
+</div>
 
-  <!-- SAVINGS -->
-  <div class="sec" id="s-save">
-    <div class="sl">Savings sources — total target R160 000</div>
-    <div class="sav-grid">
-      <div class="sav-c"><div class="sav-s">Shon (FA savings)</div><div class="sav-a">R60 000</div><div class="sav-n">Starting January 2026</div></div>
-      <div class="sav-c"><div class="sav-s">One39 savings</div><div class="sav-a">R27 000</div><div class="sav-n">Starting April 2026</div></div>
-      <div class="sav-c"><div class="sav-s">Mom contribution</div><div class="sav-a">R10 000</div><div class="sav-n">R1 100/month from April</div></div>
-      <div class="sav-c"><div class="sav-s">Josh family</div><div class="sav-a">R10 000</div><div class="sav-n">Confirm timing</div></div>
-      <div class="sav-c"><div class="sav-s">Emergency fund (EE)</div><div class="sav-a">R40 000</div><div class="sav-n">Easy Equities — last resort</div></div>
-      <div class="sav-c"><div class="sav-s">Find the gap</div><div class="sav-a">R13 000</div><div class="sav-n">To be sourced</div></div>
-    </div>
-    <div class="sl">Monthly milestone plan (Nov 2025 – Oct 2026)</div>
-    <div class="ac" style="padding:0"><div id="savrows"></div></div>
-    <div class="ac" style="margin-top:.5rem">
-      <div class="at">Savings advice</div>
-      <div class="ab"><ul>
-        <li>Total budget is R118 880 — headroom exists if the R13 000 gap is closed, which is very achievable.</li>
-        <li>Do not touch the Easy Equities fund unless absolutely necessary — it is your true safety net.</li>
-        <li>Set up a dedicated joint savings account just for the wedding, ring-fenced from day-to-day spending.</li>
-        <li>Review together monthly — if one month falls short, compensate the next.</li>
-      </ul></div>
-    </div>
+<!-- Phase modal -->
+<div class="moverlay" id="pmodal">
+  <div class="mdl">
+    <h3>Add new phase</h3>
+    <label>Phase name</label><input id="mpn" placeholder="e.g. Phase 6 — After the wedding">
+    <div class="mbtns"><button class="mbcancel" onclick="closeP()">Cancel</button><button class="mbok" onclick="submitP()">Add phase</button></div>
   </div>
+</div>
 
-  <!-- BUDGET -->
-  <div class="sec" id="s-budget">
-    <div class="sl">Budget breakdown — total R118 880</div>
-    <div class="ac" style="padding:0"><div id="budrows"></div></div>
-    <div class="ac" style="margin-top:.5rem">
-      <div class="at">Budget flags &amp; advice</div>
-      <div class="ab"><ul>
-        <li><strong>Venue &amp; catering (R44 000):</strong> Based on 80 guests @ R550/head. If numbers rise to 120, budget this line at R66 000 — revisit the overall plan.</li>
-        <li><strong>Drinks (R5 000):</strong> Covers champagne and canapés only. Confirm reception drinks with venue.</li>
-        <li><strong>Photography (R15 000):</strong> Charl has quoted — get 2 more. Realistic but not top-tier. Decide what matters most.</li>
-        <li><strong>Music (R0):</strong> DJ unconfirmed and budgeted at zero. A decent Cape Town DJ runs R5 000–R12 000. Add once Nugeon quotes.</li>
-        <li><strong>Dress (R5 000):</strong> Tight — most gowns start at R8 000–R15 000. Revisit after boutique visits.</li>
-        <li><strong>Contingency (R7 000):</strong> Healthy — protect this. Do not raid it for planned expenses.</li>
-      </ul></div>
-    </div>
-  </div>
-
-  <!-- GUESTS -->
-  <div class="sec" id="s-guests">
-    <div class="sl">Guest list — 80 confirmed + 18 optional</div>
-    <div class="gc-grid">
-      <div class="gc-col">
-        <div class="gc-head">SVH side (40 guests)</div>
-        <div id="svh-list"></div>
-      </div>
-      <div class="gc-col">
-        <div class="gc-head">JS side (39 guests)</div>
-        <div id="js-list"></div>
-      </div>
-    </div>
-    <div class="ac" style="margin-top:.75rem">
-      <div class="at">Optional / sub-in list (18 names)</div>
-      <div class="ab">Kate, Trent, Matthew, Amy, Liam, Darryl, Staci, Stephan + Partner, Dums, Mandla &amp; Partner, Grant, Verushka, Nugeon, Kylie — your buffer if confirmed guests decline.</div>
-    </div>
-    <div class="ac">
-      <div class="at">Guest list actions needed</div>
-      <div class="ab"><ul>
-        <li>Collect contact numbers for all guests — column is empty across the board.</li>
-        <li>Confirm surnames for JS-side guests where missing.</li>
-        <li>Lindelani needs a +1 confirmed. Bran brings Kylie. Nonku brings Shannon. Note for seating.</li>
-        <li>Confirm if Percy's wife and kids are in the 80-guest count.</li>
-        <li>Resolve guest #42 JS side — who is "X"?</li>
-        <li>Nugeon appears twice on JS list (entries 69 &amp; 78) — check for duplicate.</li>
-        <li>Kylie appears twice on JS list (entries 68 &amp; 79) — check for duplicate.</li>
-      </ul></div>
-    </div>
-  </div>
-
-  <!-- FAMILY -->
-  <div class="sec" id="s-family">
-    <div class="ac">
-      <div class="at">The family welcome dinner — Friday 19 December 2026</div>
-      <div class="ab">A structured but relaxed gathering 2 nights before the wedding gives both families time to meet without the pressure of the big day. Both families are within South Africa — this makes logistics manageable and a single-night event sufficient.</div>
-    </div>
-    <div class="ac">
-      <div class="at">Format — Cape Town braai or garden dinner</div>
-      <div class="ab">Host it at a different venue from The Lawns — keep the wedding venue special for the day itself. A private braai or garden dinner at a guesthouse works beautifully. Aim for 6pm arrival, relaxed pace, done by 10pm.
-        <ul>
-          <li>Shared platters and a braai encourage mingling far better than a formal menu.</li>
-          <li>Keep it inclusive — children and non-drinkers should feel equally welcome.</li>
-          <li>Background music only — no formal speeches until everyone has settled in.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="ac">
-      <div class="at">How to help both families connect</div>
-      <div class="ab"><ul>
-        <li><strong>Mixed seating deliberately arranged:</strong> Do not let SVH sit with SVH and JS with JS. Seat by age group or shared interests.</li>
-        <li><strong>Couple's growing-up slideshow:</strong> Run on a TV — childhood photos give everyone something to talk about immediately.</li>
-        <li><strong>Name cards with a conversation starter:</strong> "Ask me about..." on each card breaks the ice without pressure.</li>
-        <li><strong>One fun icebreaker:</strong> "How well do you know JS &amp; SVH?" — gets everyone laughing across family lines.</li>
-        <li><strong>Brief warm welcomes:</strong> Both sets of parents stand and say 2 minutes of welcome — not speeches, just warmth.</li>
-        <li><strong>Welcome gift bag:</strong> Local gift (wine, biltong, Cape fudge) for out-of-town guests.</li>
-      </ul></div>
-    </div>
-    <div class="ac">
-      <div class="at">Practical logistics</div>
-      <div class="ab"><ul>
-        <li>Book a block of rooms at one hotel or guesthouse for both families — shared accommodation builds familiarity overnight.</li>
-        <li>Arrange a shuttle from accommodation to the welcome dinner and back — 30–45 minutes on a bus together is worth more than any icebreaker game.</li>
-        <li>Create a WhatsApp group for the full guest weekend — Friday dinner address, Saturday suggestions, Sunday ceremony details.</li>
-        <li>Appoint one coordinator from each family side to handle queries so you are free to enjoy your weekend.</li>
-      </ul></div>
-    </div>
-  </div>
-
-  <!-- OPEN QUESTIONS -->
-  <div class="sec" id="s-qns">
-    <div class="ac">
-      <div class="at">Decisions still needed — don't leave these too long</div>
-      <div class="ab"><ul>
-        <li><strong>Who will marry you?</strong> Officiant undecided. Affects legal Home Affairs registration. Decide by February 2026.</li>
-        <li><strong>Possible MCs?</strong> Shortlist 2–3 names — someone who knows both families and has stage presence.</li>
-        <li><strong>Wedding party size?</strong> One bridesmaid and one groomsman, or more? Affects attire, hair &amp; makeup, and bouquet costs.</li>
-        <li><strong>Reception programme:</strong> Draft a run-of-show from ceremony to last dance before briefing DJ, caterer, and photographer.</li>
-        <li><strong>DJ music budget:</strong> Currently R0 — get Nugeon's quote and add to budget.</li>
-        <li><strong>Digital invite:</strong> You noted "use Claude to build the invite" — when ready, come back and I will build a full custom invite page for you.</li>
-        <li><strong>Dress budget (R5 000):</strong> Revisit after boutique visits. Flag as a yellow line item.</li>
-        <li><strong>Guest X (JS #42):</strong> Confirm name for the guest list.</li>
-      </ul></div>
-    </div>
-  </div>
-
-</div><!-- end wrap -->
+<!-- Color picker -->
+<div class="cpick" id="cpick"></div>
 
 <script>
-// COUNTDOWN
-const wed = new Date('2026-12-21T10:00:00');
-function upd() {
-  const d = Math.floor((wed - new Date()) / 86400000);
-  document.getElementById('cm').textContent = Math.floor(d / 30.44);
-  document.getElementById('cw').textContent = Math.floor(d / 7);
-  document.getElementById('cd2').textContent = d;
+const COLORS=['#A32D2D','#854F0B','#185FA5','#3B6D11','#0F6E56','#533AB7','#993556','#5F5E5A','#BA7517','#0C447C'];
+let editMode=false, tgt=null, ctgt=null, uid=Date.now();
+const nid=()=>'x'+(++uid);
+
+const DEF={
+  title:'JS & SVH — Wedding Planner',
+  sub:'21 December 2026 · The Copper Collection, The Lawns · Cape Town · 80–120 guests',
+  phases:[
+    {id:'p1',name:'Phase 1 — Right now (April – May 2026)',color:'#A32D2D',tasks:[
+      {id:'t1',t:'Finalise and sign venue contract with The Copper Collection — The Lawns',n:'Confirm catering rate R550/head, capacity for 120, and what is included',who:'JS',u:'bu',done:false},
+      {id:'t2',t:'Pay venue deposit to secure 21 December 2026',n:'Get receipt and confirm cancellation terms in writing',who:'JS',u:'bu',done:false},
+      {id:'t3',t:'Decide on officiant / marriage officer — who will marry you?',n:'Register notice of marriage at Home Affairs minimum 3 months before wedding',who:'Both',u:'bu',done:false},
+      {id:'t4',t:'Book photographer — Charl or shortlist alternative; get at least 3 quotes',n:'December fills first. Budget R15 000. Confirm full day hours.',who:'Both',u:'bu',done:false},
+      {id:'t5',t:'Contact Nugeon re: DJ availability and quote for 21 December 2026',n:'Also check if Joshua (saxophonist) is available for the canapé hour',who:'JS',u:'bu',done:false},
+      {id:'t6',t:'Confirm wedding party — bridesmaids and groomsmen, one each or more?',n:'Affects dress ordering, suit fittings, hair & makeup, and bouquet costs',who:'Both',u:'bu',done:false},
+      {id:'t7',t:'Begin bridal dress research — visit 3–4 Cape Town boutiques',n:'R5 000 budget is tight; gowns typically start at R8–15K. Revisit after visits.',who:'Shon',u:'bu',done:false},
+      {id:'t8',t:'Compile full guest list with contact numbers and email addresses',n:'Contact numbers are currently missing for all guests — collect these now',who:'Both',u:'bu',done:false},
+      {id:'t9',t:'Resolve guest list duplicates: Nugeon (69 & 78) and Kylie (68 & 79)',n:'Also confirm who "X" is on the JS list (guest #42)',who:'JS',u:'bu',done:false},
+      {id:'t10',t:'Book honeymoon — December is peak season across SA and internationally',n:'Decide on destination and book flights + accommodation now',who:'Both',u:'bu',done:false},
+    ]},
+    {id:'p2',name:'Phase 2 — Vendors & Attire (May – July 2026)',color:'#854F0B',tasks:[
+      {id:'t11',t:'Order wedding dress (hard deadline: June 2026)',n:'5–6 months production + 2 rounds of alterations before December',who:'Shon',u:'bs',done:false},
+      {id:'t12',t:'Book and confirm DJ / Nugeon — sign contract',n:'Include overtime rate clause in contract',who:'JS',u:'bs',done:false},
+      {id:'t13',t:'Book florist — brief Eike and Kelly on colour palette and vision',n:'Centrepieces, ceremony arch, bouquet, buttonholes, cake flowers',who:'Shon',u:'bs',done:false},
+      {id:'t14',t:'Book hair stylist and makeup artist (bride + bridal party)',n:'Confirm full party size upfront',who:'Shon',u:'bs',done:false},
+      {id:'t15',t:'Arrange suit / tuxedo for Josh — classic black and white',n:'Groomsmen attire to coordinate — fittings from October',who:'JS',u:'bs',done:false},
+      {id:'t16',t:'Order bridesmaids dresses (if having bridesmaids)',n:'Coordinate colour and style with palette early',who:'Shon',u:'bs',done:false},
+      {id:'t17',t:'Confirm drinks package for reception with venue',n:'R5 000 covers canapés only — confirm full reception drinks',who:'JS',u:'bs',done:false},
+      {id:'t18',t:'Brief Eike & Kelly on full décor — flowers, table settings, centrepieces',n:'Decide: DIY, borrow, or hire. Ceremony and main table first.',who:'Shon',u:'bs',done:false},
+      {id:'t19',t:'Book wedding cake / dessert table — tasting by July',n:'Coordinate cake design with colour palette and florist',who:'Both',u:'bs',done:false},
+      {id:'t20',t:'Finalise colour palette — brief all vendors from this',n:'Informs: flowers, décor, bridesmaids, stationery, and cake',who:'Both',u:'bs',done:false},
+      {id:'t21',t:'Register at a gift registry',n:'Share link with families and include in save-the-date',who:'Both',u:'bs',done:false},
+      {id:'t22',t:'Confirm MC for the reception',n:'Brief them on programme once draft is ready',who:'Both',u:'bs',done:false},
+    ]},
+    {id:'p3',name:'Phase 3 — Design & Planning (July – September 2026)',color:'#185FA5',tasks:[
+      {id:'t23',t:'Finalise ceremony and reception menu with venue',n:'Confirm dietary options — add dietary field to RSVP',who:'JS',u:'bs',done:false},
+      {id:'t24',t:'Draft wedding day run-of-show (arrival to last dance)',n:'Share with photographer, DJ, venue coordinator, and officiant',who:'Both',u:'bs',done:false},
+      {id:'t25',t:'Send digital save-the-date to all guests',n:'Include date, location, dress code, and gift registry link',who:'Both',u:'bs',done:false},
+      {id:'t26',t:'Design digital wedding invitation — RSVP deadline 15 November',n:'You noted using Claude to build this — come back when ready!',who:'Both',u:'bs',done:false},
+      {id:'t27',t:'Book hair and makeup trial — photograph results',n:'Test run 2–3 months before; confirm you love the look',who:'Shon',u:'bs',done:false},
+      {id:'t28',t:'Book family welcome dinner venue — Friday 19 December 2026',n:'Braai or garden dinner; book accommodation block for both families',who:'Both',u:'bs',done:false},
+      {id:'t29',t:'Book rehearsal dinner venue — Saturday 20 December 2026',n:'Wedding party and close family; relaxed and early evening',who:'Both',u:'bs',done:false},
+      {id:'t30',t:'Finalise honeymoon — visas, travel insurance, packing list',n:'',who:'Both',u:'bs',done:false},
+      {id:'t31',t:'Shop for wedding favours — personal or locally South African',n:'',who:'Shon',u:'bs',done:false},
+      {id:'t32',t:'Order bridesmaids gifts and groomsmen gifts',n:'Allow 4–6 weeks for delivery or personalisation',who:'Both',u:'bs',done:false},
+    ]},
+    {id:'p4',name:'Phase 4 — Confirmations (October – November 2026)',color:'#3B6D11',tasks:[
+      {id:'t33',t:'Send wedding invitations digitally — RSVP deadline 15 November',n:'',who:'Both',u:'bo',done:false},
+      {id:'t34',t:'First suit fittings for Josh and groomsmen',n:'Final fitting late November',who:'JS',u:'bo',done:false},
+      {id:'t35',t:'Final dress fitting — sign off, no more alterations after this',n:'',who:'Shon',u:'bo',done:false},
+      {id:'t36',t:'Collect and confirm all RSVPs by 15 November',n:'Final numbers needed for caterer and venue by 1 December',who:'Both',u:'bo',done:false},
+      {id:'t37',t:'Finalise seating plan — mix both families intentionally',n:'Do not seat SVH and JS sides separately',who:'Both',u:'bo',done:false},
+      {id:'t38',t:'Confirm final numbers with all vendors',n:'Most require final count 2 weeks before',who:'JS',u:'bo',done:false},
+      {id:'t39',t:'Collect wedding rings and confirm sizing',n:'',who:'Both',u:'bo',done:false},
+      {id:'t40',t:'Create detailed run-of-show document for all vendors',n:'Share with: venue coordinator, DJ, photographer, MC, and officiant',who:'Both',u:'bo',done:false},
+      {id:'t41',t:'Organise weekend shuttle/transport — share schedule with guests',n:'WhatsApp: accommodation → welcome dinner → ceremony → reception',who:'Both',u:'bo',done:false},
+      {id:'t42',t:'Confirm accommodation block for both family sides (Fri–Sun)',n:'',who:'Both',u:'bo',done:false},
+      {id:'t43',t:'Prepare vendor payment envelopes — give to trusted person',n:'Do not handle money yourself on the wedding day',who:'Both',u:'bo',done:false},
+      {id:'t44',t:'Create wedding emergency kit',n:'Safety pins, stain remover, painkillers, plasters, chargers, snacks, mints',who:'Shon',u:'bo',done:false},
+      {id:'t45',t:'Brief full bridal party on complete weekend timeline',n:'One clear PDF to their phones',who:'Both',u:'bo',done:false},
+    ]},
+    {id:'p5',name:'Phase 5 — The Final Stretch (1–20 December 2026)',color:'#0F6E56',tasks:[
+      {id:'t46',t:'Final venue walkthrough with coordinator, florist, and DJ',n:'Walk every space: ceremony, canapé zone, reception hall, photo spots',who:'Both',u:'bo',done:false},
+      {id:'t47',t:'Confirm all vendor arrival times and load-in schedule',n:'Give each vendor one emergency contact for the day',who:'Both',u:'bo',done:false},
+      {id:'t48',t:'Collect wedding dress from boutique',n:'',who:'Shon',u:'bo',done:false},
+      {id:'t49',t:'Final suit pick-up and confirmation',n:'',who:'JS',u:'bo',done:false},
+      {id:'t50',t:'Send full weekend WhatsApp update to all guests',n:'Friday dinner details, Saturday free time, Sunday ceremony + dress code',who:'Both',u:'bo',done:false},
+      {id:'t51',t:'Host family welcome dinner — Friday 19 December',n:'Delegate on-the-night coordination to family coordinators',who:'Both',u:'bo',done:false},
+      {id:'t52',t:'Attend rehearsal — walk through full ceremony at least once',n:'Confirm entrance music cue, vow order, ring bearer timing',who:'Both',u:'bo',done:false},
+      {id:'t53',t:'Rehearsal dinner — wedding party and close family',n:'Keep it light; early night, everyone needs sleep',who:'Both',u:'bo',done:false},
+      {id:'t54',t:'Get a full night of rest — Saturday 20 December',n:'No late-night calls, no last-minute changes. Trust your plan.',who:'Both',u:'bo',done:false},
+      {id:'t55',t:'Get married and enjoy every single moment — 21 December 2026 ♡',n:'You have planned this well. Now just be present.',who:'JS & SVH',u:'bo',done:false},
+    ]},
+  ],
+  quotes:[
+    {id:'q1',s:'Officiant',d:'Feb 2026',u:'ut',ul:'URGENT',n:'Legal — do not delay'},
+    {id:'q2',s:'Photographer',d:'May 2026',u:'ut',ul:'Book NOW',n:'Charl quoted; get 2 more'},
+    {id:'q3',s:'Videographer',d:'May 2026',u:'ut',ul:'Book NOW',n:'Optional but recommended'},
+    {id:'q4',s:'Honeymoon',d:'May 2026',u:'ut',ul:'Book NOW',n:'Dec peak — fills fast'},
+    {id:'q5',s:'DJ / Nugeon',d:'May 2026',u:'ut',ul:'Book NOW',n:'Confirm Joshua for canapés'},
+    {id:'q6',s:'Wedding dress',d:'Jun 2026',u:'ut',ul:'Book NOW',n:'5–6 months production time'},
+    {id:'q7',s:'Hair stylist',d:'Jul 2026',u:'us',ul:'Book soon',n:'Full party size upfront'},
+    {id:'q8',s:'Makeup artist',d:'Jul 2026',u:'us',ul:'Book soon',n:'Trial by September'},
+    {id:'q9',s:'Florist (Eike & Kelly)',d:'Jul 2026',u:'us',ul:'Book soon',n:'Brief on palette early'},
+    {id:'q10',s:'Suits — Josh',d:'Aug 2026',u:'us',ul:'Book soon',n:'Fittings from October'},
+    {id:'q11',s:'Bridesmaids dresses',d:'Aug 2026',u:'us',ul:'Book soon',n:'Allow alteration time'},
+    {id:'q12',s:'Wedding cake',d:'Sep 2026',u:'uo',ul:'On track',n:'Schedule a tasting first'},
+    {id:'q13',s:'Stationery / digital',d:'Sep 2026',u:'uo',ul:'On track',n:'Build invite with Claude!'},
+    {id:'q14',s:'Transport / shuttle',d:'Oct 2026',u:'uo',ul:'On track',n:'Guest + bridal party routes'},
+  ],
+  savings:[
+    {id:'s1',label:'Shon (FA savings)',amount:'R60 000',note:'Starting January 2026'},
+    {id:'s2',label:'One39 savings',amount:'R27 000',note:'Starting April 2026'},
+    {id:'s3',label:'Mom contribution',amount:'R10 000',note:'R1 100/month from April'},
+    {id:'s4',label:'Josh family',amount:'R10 000',note:'Confirm timing'},
+    {id:'s5',label:'Emergency fund (EE)',amount:'R40 000',note:'Easy Equities — last resort'},
+    {id:'s6',label:'Find the gap',amount:'R13 000',note:'To be sourced'},
+  ],
+  milestones:[
+    {m:'November 2025',g:'R8,333',c:'R8,333',note:'Shortlist venues — done ✓'},
+    {m:'December 2025',g:'R8,333',c:'R16,666',note:'Secure venue deposit'},
+    {m:'January 2026',g:'R8,333',c:'R24,999',note:'Book photographer & DJ'},
+    {m:'February 2026',g:'R8,333',c:'R33,332',note:'Order attire, 2nd venue payment'},
+    {m:'March 2026',g:'R8,333',c:'R41,665',note:'Book florist, décor, cake'},
+    {m:'April 2026',g:'R8,333',c:'R49,998',note:'Pay photography balance'},
+    {m:'May 2026',g:'R8,333',c:'R58,331',note:'Rings + save the date out'},
+    {m:'June 2026',g:'R8,333',c:'R66,664',note:'Hair & makeup trials'},
+    {m:'July 2026',g:'R8,333',c:'R74,997',note:'Balance payments begin'},
+    {m:'August 2026',g:'R8,333',c:'R83,330',note:'Pay remaining venue/catering'},
+    {m:'September 2026',g:'R8,333',c:'R91,663',note:'Final vendor balances'},
+    {m:'October 2026',g:'R8,337',c:'R100,000',note:'Emergency fund & tips ready'},
+  ],
+  budget:[
+    {id:'b1',cat:'Venue & catering (80 @ R550)',amt:'R44 000',note:'Increase if >80 guests confirmed'},
+    {id:'b2',cat:'Drinks — champagne & canapés',amt:'R5 000',note:'Confirm reception drinks separately'},
+    {id:'b3',cat:'Surcharge (12%)',amt:'R5 880',note:'Applied to catering total'},
+    {id:'b4',cat:'Photography & videography',amt:'R15 000',note:'Charl quote — compare 2 more'},
+    {id:'b5',cat:'Suit & accessories',amt:'R8 000',note:'Classic black & white tuxedo'},
+    {id:'b6',cat:'Dress & accessories',amt:'R5 000',note:'Budget likely needs revisiting'},
+    {id:'b7',cat:'Décor, flowers & cake',amt:'R6 000',note:'Eike & Kelly — DIY where possible'},
+    {id:'b8',cat:'Music / DJ / sound',amt:'R0',note:'Unconfirmed — add once Nugeon quotes'},
+    {id:'b9',cat:'Rings',amt:'R5 000',note:'Simple gold/silver bands'},
+    {id:'b10',cat:'Invitations & stationery',amt:'R3 000',note:'Digital route planned'},
+    {id:'b11',cat:'Hair, makeup & beauty',amt:'R3 000',note:'Trials + day-of for bride'},
+    {id:'b12',cat:'Officiant & legal fees',amt:'R2 000',note:'Home Affairs registration needed'},
+    {id:'b13',cat:'Accommodation',amt:'R10 000',note:'Both families block-booked'},
+    {id:'b14',cat:'Contingency / miscellaneous',amt:'R7 000',note:'Protect this — do not raid it'},
+  ],
+  guests:{
+    svh:['Belinda Van Harte','Leticia Diest','Clint Diest','Harper Diest','Reign Diest','Godfrey Van Harte','Felicia Van Harte','Bradley','Lucille','Robin','Chelsea','Noel','Lene','Avril','Valda','Tyrone','Gran','Lex','Zhu','Grant','Kelly','Lauren','Kim','Lucia','Shaun','Eike','Bran','Huey','Nicole','Nana','Dale','Joylin','Tania','Dwayne','Lindelani (+1 needed)','Lukho','Zandi','Ndina','Kirsten','Nonku'],
+    js:['Mom','X — confirm name','Mbali','Percy','Percy wife','Kids? (confirm)','Uncle','Aunt','Mandla','Mandla wife','Mums friend','Omanda jnr','Omanda snr','Kudzi','Wesley','Beauty','Tino','Tino +1','Suares','Taps','Taps wife','Nono','Charlene','Nosi','Mums friend','Mums friend','Kudzi','Kylie','Nugeon','Raisa','Wilson','Shannon','Mike','Kennedy','Roxanne','Ziggy','Cebile','Nugeon ⚠ dup?','Kylie ⚠ dup?']
+  },
+  cards:{
+    quotes:[{id:'qc1',title:'Your vendor notes',body:'<ul><li><b>Photography:</b> Charl has quoted — compare at least 2 more. Book by May 2026.</li><li><b>DJ/Sound:</b> Check Nugeon first. If Joshua (saxophonist) is available, book for the canapé hour.</li><li><b>Décor & Flowers:</b> Eike and Kelly are your leads — brief them early on colour palette.</li><li><b>Stationery:</b> Digital invites planned — consider using Claude to build a custom invite page.</li><li><b>Officiant:</b> Still undecided — who will marry you? Resolve by February 2026.</li><li><b>Venue catering:</b> Confirmed at R550/head for 80 guests. Confirm final count by October 2026.</li></ul>'}],
+    save:[{id:'sc1',title:'Savings advice',body:'<ul><li>Total budget is R118 880 — headroom exists if the R13 000 gap is closed.</li><li>Do not touch the Easy Equities fund unless absolutely necessary — it is your true safety net.</li><li>Set up a dedicated joint savings account just for the wedding, ring-fenced from day-to-day spending.</li><li>Review together monthly — if one month falls short, compensate the next.</li></ul>'}],
+    budget:[{id:'bc1',title:'Budget flags & advice',body:'<ul><li><b>Venue & catering (R44 000):</b> If numbers rise to 120, budget at R66 000 — revisit overall plan.</li><li><b>Drinks (R5 000):</b> Covers canapés only. Confirm reception drinks with venue.</li><li><b>Photography (R15 000):</b> Get 2 more quotes. Realistic but not top-tier.</li><li><b>Music (R0):</b> A decent Cape Town DJ runs R5 000–R12 000. Add once Nugeon quotes.</li><li><b>Dress (R5 000):</b> Most gowns start at R8 000–R15 000. Revisit after boutique visits.</li><li><b>Contingency (R7 000):</b> Protect this. Do not raid it for planned expenses.</li></ul>'}],
+    guests:[
+      {id:'gc1',title:'Guest list actions needed',body:'<ul><li>Collect contact numbers for all guests — currently missing for everyone.</li><li>Confirm surnames for JS-side guests where missing.</li><li>Lindelani needs a +1. Bran brings Kylie. Nonku brings Shannon.</li><li>Confirm if Percy\'s wife and kids are in the 80-guest count.</li><li>Resolve guest #42 JS side — who is "X"?</li><li>Nugeon appears twice (entries 69 & 78) — check for duplicate.</li><li>Kylie appears twice (entries 68 & 79) — check for duplicate.</li></ul>'},
+      {id:'gc2',title:'Optional / sub-in list (18 names)',body:'Kate, Trent, Matthew, Amy, Liam, Darryl, Staci, Stephan + Partner, Dums, Mandla & Partner, Grant, Verushka, Nugeon, Kylie — your buffer if confirmed guests decline.'}
+    ],
+    family:[
+      {id:'fc1',title:'The family welcome dinner — Friday 19 December 2026',body:'A structured but relaxed gathering 2 nights before the wedding gives both families time to meet. Host it at a different venue from The Lawns — keep the wedding venue special for the day itself.'},
+      {id:'fc2',title:'Format — Cape Town braai or garden dinner',body:'Aim for 6pm arrival, relaxed pace, done by 10pm.<ul><li>Shared platters and a braai encourage mingling far better than a formal menu.</li><li>Keep it inclusive — children and non-drinkers equally welcome.</li><li>Background music only — no formal speeches until everyone has settled.</li></ul>'},
+      {id:'fc3',title:'How to help both families connect',body:'<ul><li><b>Mixed seating:</b> Do not let SVH sit with SVH and JS with JS. Seat by age group or shared interests.</li><li><b>Couple\'s growing-up slideshow:</b> Run on a TV — gives everyone something to talk about.</li><li><b>Name cards with "Ask me about..."</b> breaks the ice without pressure.</li><li><b>One icebreaker round:</b> "How well do you know JS & SVH?" — gets everyone laughing.</li><li><b>Brief warm welcomes:</b> Both sets of parents say 2 minutes — not speeches, just warmth.</li><li><b>Welcome gift bag:</b> Wine, biltong, Cape fudge for out-of-town guests.</li></ul>'},
+      {id:'fc4',title:'Logistics',body:'<ul><li>Book a block of rooms at one hotel for both families — shared accommodation builds familiarity overnight.</li><li>Arrange a shuttle from accommodation to dinner and back — 30–45 min together does wonders.</li><li>Create a WhatsApp group for the full guest weekend — Friday dinner address, Saturday suggestions, Sunday ceremony details.</li><li>Appoint one coordinator from each family side to handle queries so you are free to enjoy your weekend.</li></ul>'},
+    ],
+    qns:[{id:'qnc1',title:'Decisions still needed',body:'<ul><li><b>Who will marry you?</b> Officiant undecided. Affects Home Affairs registration. Decide by February 2026.</li><li><b>Possible MCs?</b> Shortlist 2–3 names — someone who knows both families and has stage presence.</li><li><b>Wedding party size?</b> One each or more? Affects attire, hair & makeup, and bouquet costs.</li><li><b>Reception programme:</b> Draft a run-of-show before briefing DJ, caterer, and photographer.</li><li><b>DJ music budget:</b> Currently R0 — get Nugeon\'s quote and add to budget.</li><li><b>Digital invite:</b> Come back to Claude when ready to build a full custom invite page.</li><li><b>Dress budget (R5 000):</b> Revisit after boutique visits.</li><li><b>Guest X (JS #42):</b> Confirm name for the guest list.</li></ul>'}],
+  }
+};
+
+let S=JSON.parse(localStorage.getItem('wp26')||'null')||JSON.parse(JSON.stringify(DEF));
+
+function save(){
+  localStorage.setItem('wp26',JSON.stringify(S));
+  const b=document.getElementById('sbar');
+  b.textContent='Saved ✓ '+new Date().toLocaleTimeString();
+  setTimeout(()=>{b.textContent='Progress auto-saved in your browser';},2000);
+}
+
+function toggleEdit(){
+  editMode=!editMode;
+  document.body.classList.toggle('edit-on',editMode);
+  const b=document.getElementById('ebtn');
+  b.textContent=editMode?'✓ Done editing':'✏️ Edit mode';
+  b.classList.toggle('on',editMode);
+  document.getElementById('mtitle').contentEditable=editMode?'true':'false';
+  document.getElementById('msub').contentEditable=editMode?'true':'false';
+  renderAll();
+}
+
+const tabIds=['plan','quotes','save','budget','guests','family','qns'];
+function sw(id){
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('on',tabIds[i]===id));
+  document.querySelectorAll('.sec').forEach(s=>s.classList.toggle('on',s.id==='s-'+id));
+}
+
+function upd(){
+  const d=Math.floor((new Date('2026-12-21T10:00:00')-new Date())/86400000);
+  document.getElementById('cm').textContent=Math.floor(d/30.44);
+  document.getElementById('cw').textContent=Math.floor(d/7);
+  document.getElementById('cd2').textContent=d;
 }
 upd();
 
-// TAB SWITCHER
-const tabIds = ['plan','quotes','save','budget','guests','family','qns'];
-function sw(id) {
-  document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('on', tabIds[i] === id));
-  document.querySelectorAll('.sec').forEach(s => s.classList.toggle('on', s.id === 's-' + id));
-}
+document.getElementById('mtitle').addEventListener('blur',function(){S.title=this.textContent;save();});
+document.getElementById('msub').addEventListener('blur',function(){S.sub=this.textContent;save();});
 
-// PHASES DATA
-const phases = [
-  { name: 'Phase 1 — Right now (April – May 2026)', color: '#A32D2D', tasks: [
-    { t: 'Finalise and sign venue contract with The Copper Collection — The Lawns', n: 'Confirm catering rate R550/head, capacity for 120, and what is included', who: 'JS', u: 'bu' },
-    { t: 'Pay venue deposit to secure 21 December 2026', n: 'Get receipt and confirm cancellation terms in writing', who: 'JS', u: 'bu' },
-    { t: 'Decide on officiant / marriage officer — who will marry you?', n: 'Register notice of marriage at Home Affairs minimum 3 months before wedding', who: 'Both', u: 'bu' },
-    { t: 'Book photographer — Charl or shortlist alternative; get at least 3 quotes', n: 'December fills first. Budget R15 000. Confirm full day hours.', who: 'Both', u: 'bu' },
-    { t: 'Contact Nugeon re: DJ availability and quote for 21 December 2026', n: 'Also check if Joshua (saxophonist) is available for the canapé hour', who: 'JS', u: 'bu' },
-    { t: 'Confirm wedding party — bridesmaids and groomsmen, one each or more?', n: 'Affects dress ordering, suit fittings, hair & makeup, and bouquet costs', who: 'Both', u: 'bu' },
-    { t: 'Begin bridal dress research — visit 3–4 Cape Town boutiques', n: 'R5 000 budget is tight; gowns typically start at R8–15K. Revisit budget after visits.', who: 'Shon', u: 'bu' },
-    { t: 'Compile full guest list with contact numbers and email addresses', n: 'Contact numbers are currently missing for all guests — collect these now', who: 'Both', u: 'bu' },
-    { t: 'Resolve guest list duplicates: Nugeon (entries 69 & 78), Kylie (68 & 79)', n: 'Also confirm who "X" is on the JS list (guest #42)', who: 'JS', u: 'bu' },
-    { t: 'Book honeymoon — December is peak season across SA and internationally', n: 'Decide on destination and book flights + accommodation now', who: 'Both', u: 'bu' },
-  ]},
-  { name: 'Phase 2 — Vendors & Attire (May – July 2026)', color: '#854F0B', tasks: [
-    { t: 'Order wedding dress (hard deadline: June 2026)', n: '5–6 months production + 2 rounds of alterations before December', who: 'Shon', u: 'bs' },
-    { t: 'Book and confirm DJ / Nugeon — sign contract', n: 'Include overtime rate clause in contract', who: 'JS', u: 'bs' },
-    { t: 'Book florist — brief Eike and Kelly on colour palette and vision', n: 'Discuss centrepieces, ceremony arch, bouquet, buttonholes, and cake flowers', who: 'Shon', u: 'bs' },
-    { t: 'Book hair stylist and makeup artist (bride + bridal party)', n: 'Confirm full party size so they can allocate enough time and artists', who: 'Shon', u: 'bs' },
-    { t: 'Arrange suit / tuxedo hire or purchase for Josh (classic black and white)', n: 'Groomsmen attire to coordinate — book fittings from October', who: 'JS', u: 'bs' },
-    { t: 'Order bridesmaids dresses (if having bridesmaids)', n: 'Coordinate colour and style with your overall palette early', who: 'Shon', u: 'bs' },
-    { t: 'Confirm drinks package for reception with venue', n: 'R5 000 covers canapés only — confirm full reception drinks are covered', who: 'JS', u: 'bs' },
-    { t: 'Brief Eike & Kelly on décor in full — flowers, table settings, centrepieces', n: 'Decide: DIY, borrow, or hire. Ceremony and main table are the priority.', who: 'Shon', u: 'bs' },
-    { t: 'Book wedding cake / dessert table — schedule a tasting by July', n: 'Coordinate cake design with your colour palette and florist', who: 'Both', u: 'bs' },
-    { t: 'Finalise and agree on colour palette — use this to brief all vendors', n: 'Informs: flowers, décor, bridesmaids dresses, stationery, and cake', who: 'Both', u: 'bs' },
-    { t: 'Register at a gift registry', n: 'Share link with families and include in save-the-date', who: 'Both', u: 'bs' },
-    { t: 'Confirm MC for the reception', n: 'Brief them on the programme structure once draft is ready', who: 'Both', u: 'bs' },
-  ]},
-  { name: 'Phase 3 — Design & Planning (July – September 2026)', color: '#185FA5', tasks: [
-    { t: 'Finalise ceremony and reception menu with venue', n: 'Confirm dietary options — add dietary field to your RSVP process', who: 'JS', u: 'bs' },
-    { t: 'Draft wedding day run-of-show (arrival to last dance)', n: 'Share with photographer, DJ, venue coordinator, and officiant for input', who: 'Both', u: 'bs' },
-    { t: 'Send digital save-the-date to all guests', n: 'Include wedding date, location, dress code, and gift registry link', who: 'Both', u: 'bs' },
-    { t: 'Design digital wedding invitation — RSVP deadline 15 November', n: 'You noted using Claude to build this — come back when ready!', who: 'Both', u: 'bs' },
-    { t: 'Book hair and makeup trial — photograph results', n: 'Test run 2–3 months before; confirm you love the look', who: 'Shon', u: 'bs' },
-    { t: 'Book family welcome dinner venue — Friday 19 December 2026', n: 'Braai or garden dinner recommended; book accommodation block for both families', who: 'Both', u: 'bs' },
-    { t: 'Book rehearsal dinner venue — Saturday 20 December 2026', n: 'Wedding party and close family; relaxed and early evening', who: 'Both', u: 'bs' },
-    { t: 'Finalise honeymoon planning — visas, travel insurance, packing list', n: '', who: 'Both', u: 'bs' },
-    { t: 'Shop for wedding favours — something personal or locally South African', n: '', who: 'Shon', u: 'bs' },
-    { t: 'Order bridesmaids gifts and groomsmen gifts', n: 'Allow 4–6 weeks for delivery or personalisation', who: 'Both', u: 'bs' },
-    { t: 'Plan flower girl and ring bearer outfits (if applicable)', n: '', who: 'Both', u: 'bs' },
-  ]},
-  { name: 'Phase 4 — Confirmations (October – November 2026)', color: '#3B6D11', tasks: [
-    { t: 'Send wedding invitations digitally — RSVP deadline 15 November', n: '', who: 'Both', u: 'bo' },
-    { t: 'First suit fittings for Josh and groomsmen', n: 'Final fitting late November', who: 'JS', u: 'bo' },
-    { t: 'Final dress fitting — sign-off, no more alterations after this', n: '', who: 'Shon', u: 'bo' },
-    { t: 'Collect and confirm all RSVPs by 15 November', n: 'Final numbers needed for caterer and venue by 1 December', who: 'Both', u: 'bo' },
-    { t: 'Finalise seating plan based on confirmed guest numbers', n: 'Mix both families intentionally — do not seat SVH and JS sides separately', who: 'Both', u: 'bo' },
-    { t: 'Confirm final numbers with all vendors: venue, caterer, florist, cake', n: 'Most require final count 2 weeks before', who: 'JS', u: 'bo' },
-    { t: 'Collect wedding rings and confirm sizing', n: '', who: 'Both', u: 'bo' },
-    { t: 'Create detailed run-of-show document for all vendors', n: 'Share with: venue coordinator, DJ, photographer, MC, and officiant', who: 'Both', u: 'bo' },
-    { t: 'Organise weekend shuttle/transport — share schedule with all guests', n: 'WhatsApp group: accommodation → welcome dinner → ceremony → reception', who: 'Both', u: 'bo' },
-    { t: 'Confirm accommodation block for both family sides (Fri–Sun)', n: '', who: 'Both', u: 'bo' },
-    { t: 'Assign a family coordinator from each side to handle weekend queries', n: 'They field calls so you are free to enjoy your weekend', who: 'Both', u: 'bo' },
-    { t: 'Prepare vendor payment envelopes — give to trusted person to distribute', n: 'Do not handle money yourself on the wedding day', who: 'Both', u: 'bo' },
-    { t: 'Create wedding emergency kit', n: 'Safety pins, stain remover, painkillers, plasters, phone chargers, snacks, mints', who: 'Shon', u: 'bo' },
-    { t: 'Brief full bridal party on complete weekend timeline (PDF to their phones)', n: '', who: 'Both', u: 'bo' },
-  ]},
-  { name: 'Phase 5 — The Final Stretch (1–20 December 2026)', color: '#0F6E56', tasks: [
-    { t: 'Final venue walkthrough with coordinator, florist, and DJ', n: 'Walk every space: ceremony area, canapé zone, reception hall, photo spots', who: 'Both', u: 'bo' },
-    { t: 'Confirm all vendor arrival times and load-in schedule with venue', n: 'Provide each vendor one emergency contact number for the day', who: 'Both', u: 'bo' },
-    { t: 'Collect wedding dress from boutique', n: '', who: 'Shon', u: 'bo' },
-    { t: 'Final suit pick-up and confirmation', n: '', who: 'JS', u: 'bo' },
-    { t: 'Send full weekend WhatsApp update to all guests', n: 'Friday dinner details, Saturday free time, Sunday ceremony time and dress code', who: 'Both', u: 'bo' },
-    { t: 'Host family welcome dinner — Friday 19 December', n: 'Delegate on-the-night coordination to your family coordinators', who: 'Both', u: 'bo' },
-    { t: 'Attend rehearsal — walk through full ceremony at least once', n: 'Confirm entrance music cue, vow order, ring bearer timing', who: 'Both', u: 'bo' },
-    { t: 'Rehearsal dinner — wedding party and close family', n: 'Keep it light; early night, everyone needs sleep', who: 'Both', u: 'bo' },
-    { t: 'Get a full night of rest — Saturday 20 December', n: 'No late-night calls, no last-minute changes. Trust your plan.', who: 'Both', u: 'bo' },
-    { t: 'Get married and enjoy every single moment — 21 December 2026 ♡', n: 'You have planned this well. Now just be present.', who: 'JS & SVH', u: 'bo' },
-  ]}
-];
-
-// LOAD SAVED STATES
-const ck = JSON.parse(localStorage.getItem('wedding-checks') || '{}');
-
-function saveChecks() {
-  localStorage.setItem('wedding-checks', JSON.stringify(ck));
-  const n = document.getElementById('save-note');
-  n.textContent = 'Saved ✓ ' + new Date().toLocaleTimeString();
-  setTimeout(() => { n.textContent = 'Progress auto-saved in your browser'; }, 2000);
-}
-
-function tc(k) {
-  ck[k] = !ck[k];
-  const c = document.getElementById('ck' + k), t = document.getElementById('tt' + k);
-  c.classList.toggle('dn', ck[k]); c.textContent = ck[k] ? '✓' : ''; t.classList.toggle('dn', ck[k]);
-  saveChecks();
-}
-
-// BUILD PHASES
-const pc = document.getElementById('pc');
-phases.forEach((p, pi) => {
-  const blk = document.createElement('div'); blk.className = 'pb';
-  const hdr = document.createElement('div'); hdr.className = 'ph';
-  const done = p.tasks.filter((_, ti) => ck[pi + '-' + ti]).length;
-  hdr.innerHTML = `<div class="pdot" style="background:${p.color}"></div><div class="pn">${p.name}</div><div class="pm">${done}/${p.tasks.length} done</div><div class="pch" id="pch${pi}">▶</div>`;
-  hdr.onclick = () => { const b = document.getElementById('pb' + pi), c = document.getElementById('pch' + pi); b.classList.toggle('o'); c.classList.toggle('o'); };
-  const bd = document.createElement('div'); bd.className = 'pbd' + (pi === 0 ? ' o' : ''); bd.id = 'pb' + pi;
-  if (pi === 0) setTimeout(() => { const c = document.getElementById('pch0'); if (c) c.classList.add('o'); }, 30);
-  p.tasks.forEach((tk, ti) => {
-    const k = pi + '-' + ti;
-    const row = document.createElement('div'); row.className = 'tr';
-    const isDone = ck[k] || false;
-    row.innerHTML = `<div class="chk${isDone ? ' dn' : ''}" id="ck${k}" onclick="tc('${k}')">${isDone ? '✓' : ''}</div><div><div class="tt${isDone ? ' dn' : ''}" id="tt${k}">${tk.t}</div>${tk.n ? `<div class="tn">${tk.n}</div>` : ''}${tk.who ? `<div class="twho">→ ${tk.who}</div>` : ''}</div><span class="bdg ${tk.u}">${tk.u === 'bu' ? 'Now' : tk.u === 'bs' ? 'Soon' : 'On track'}</span>`;
-    bd.appendChild(row);
+// ── PHASES ──────────────────────────────────────────────────────────────────
+function buildPhases(){
+  const wrap=document.getElementById('phases-wrap');
+  wrap.innerHTML='';
+  S.phases.forEach(p=>{
+    const done=p.tasks.filter(t=>t.done).length;
+    const blk=document.createElement('div');blk.className='pb';blk.id='pb-'+p.id;
+    const hdr=document.createElement('div');hdr.className='ph';
+    hdr.innerHTML=`<div class="pdot" style="background:${p.color}" data-pid="${p.id}"></div><div class="pn" data-pid="${p.id}" spellcheck="false" contenteditable="${editMode?'true':'false'}">${p.name}</div><div class="pm">${done}/${p.tasks.length}</div><div class="p-del" data-pid="${p.id}">× Remove</div><div class="pch" id="pch-${p.id}">▶</div>`;
+    hdr.querySelector('.pdot').onclick=e=>{e.stopPropagation();if(editMode)openCPick(p.id,e.target);};
+    hdr.querySelector('.pn').addEventListener('blur',function(){p.name=this.textContent;save();});
+    hdr.querySelector('.p-del').onclick=e=>{e.stopPropagation();if(confirm('Remove this entire phase?')){S.phases=S.phases.filter(x=>x.id!==p.id);save();buildPhases();}};
+    hdr.onclick=e=>{if(!['pdot','p-del'].some(c=>e.target.classList.contains(c)))togglePh(p.id);};
+    const bd=document.createElement('div');bd.className='pbd';bd.id='pbd-'+p.id;
+    p.tasks.forEach(tk=>bd.appendChild(mkTask(p.id,tk)));
+    const ab=document.createElement('button');ab.className='add-task-btn';ab.textContent='+ Add task';ab.onclick=()=>openT(p.id);
+    bd.appendChild(ab);
+    blk.appendChild(hdr);blk.appendChild(bd);
+    wrap.appendChild(blk);
   });
-  blk.appendChild(hdr); blk.appendChild(bd); pc.appendChild(blk);
-});
+}
 
-// QUOTES
-const quotes = [
-  { s: 'Officiant', d: 'Feb 2026', u: 'ut', ul: 'URGENT', n: 'Legal — do not delay' },
-  { s: 'Photographer', d: 'May 2026', u: 'ut', ul: 'Book NOW', n: 'Charl quoted; get 2 more' },
-  { s: 'Videographer', d: 'May 2026', u: 'ut', ul: 'Book NOW', n: 'Optional but recommended' },
-  { s: 'Honeymoon', d: 'May 2026', u: 'ut', ul: 'Book NOW', n: 'Dec peak — flights fill fast' },
-  { s: 'DJ / Nugeon', d: 'May 2026', u: 'ut', ul: 'Book NOW', n: 'Confirm Joshua for canapés' },
-  { s: 'Wedding dress', d: 'June 2026', u: 'ut', ul: 'Book NOW', n: '5–6 months production time' },
-  { s: 'Hair stylist', d: 'July 2026', u: 'us', ul: 'Book soon', n: 'Full party size upfront' },
-  { s: 'Makeup artist', d: 'July 2026', u: 'us', ul: 'Book soon', n: 'Trial by September' },
-  { s: 'Florist (Eike & Kelly)', d: 'July 2026', u: 'us', ul: 'Book soon', n: 'Brief on palette early' },
-  { s: 'Suits — Josh', d: 'Aug 2026', u: 'us', ul: 'Book soon', n: 'Fittings from October' },
-  { s: 'Bridesmaids dresses', d: 'Aug 2026', u: 'us', ul: 'Book soon', n: 'Allow alteration time' },
-  { s: 'Wedding cake', d: 'Sep 2026', u: 'uo', ul: 'On track', n: 'Schedule a tasting first' },
-  { s: 'Stationery / digital', d: 'Sep 2026', u: 'uo', ul: 'On track', n: 'Build invite with Claude!' },
-  { s: 'Transport / shuttle', d: 'Oct 2026', u: 'uo', ul: 'On track', n: 'Guest + bridal party routes' },
-];
-const qg = document.getElementById('qg');
-quotes.forEach(q => {
-  const c = document.createElement('div'); c.className = 'qc';
-  c.innerHTML = `<div class="qs">${q.s}</div><div class="qd">Deadline: ${q.d}</div><div class="qd" style="margin-top:2px">${q.n}</div><div class="qu ${q.u}">${q.ul}</div>`;
-  qg.appendChild(c);
-});
+function togglePh(id){
+  document.getElementById('pbd-'+id).classList.toggle('o');
+  document.getElementById('pch-'+id).classList.toggle('o');
+}
 
-// SAVINGS ROWS
-const savData = [
-  { m: 'November 2025', g: 'R8,333', cum: 'R8,333', note: 'Shortlist venues — done ✓' },
-  { m: 'December 2025', g: 'R8,333', cum: 'R16,666', note: 'Secure venue deposit' },
-  { m: 'January 2026', g: 'R8,333', cum: 'R24,999', note: 'Book photographer & DJ' },
-  { m: 'February 2026', g: 'R8,333', cum: 'R33,332', note: 'Order attire, 2nd venue payment' },
-  { m: 'March 2026', g: 'R8,333', cum: 'R41,665', note: 'Book florist, décor, cake' },
-  { m: 'April 2026', g: 'R8,333', cum: 'R49,998', note: 'Pay photography balance' },
-  { m: 'May 2026', g: 'R8,333', cum: 'R58,331', note: 'Rings + save the date out' },
-  { m: 'June 2026', g: 'R8,333', cum: 'R66,664', note: 'Hair & makeup trials' },
-  { m: 'July 2026', g: 'R8,333', cum: 'R74,997', note: 'Balance payments begin' },
-  { m: 'August 2026', g: 'R8,333', cum: 'R83,330', note: 'Pay remaining venue/catering' },
-  { m: 'September 2026', g: 'R8,333', cum: 'R91,663', note: 'Final vendor balances' },
-  { m: 'October 2026', g: 'R8,337', cum: 'R100,000', note: 'Emergency fund & tips ready' },
-];
-const sr = document.getElementById('savrows');
-savData.forEach((s, i) => {
-  const row = document.createElement('div');
-  row.style.cssText = `display:grid;grid-template-columns:140px 65px 85px 1fr;gap:10px;align-items:center;padding:9px 16px;border-bottom:${i < savData.length - 1 ? '1px solid var(--border)' : 'none'};font-size:12px`;
-  row.innerHTML = `<div style="color:var(--text)">${s.m}</div><div style="color:var(--text2)">${s.g}</div><div style="font-weight:500;color:var(--text)">${s.cum}</div><div style="color:var(--text2)">${s.note}</div>`;
-  sr.appendChild(row);
-});
+function mkTask(pid,tk){
+  const row=document.createElement('div');row.className='tr';row.id='tr-'+tk.id;
+  const bl=tk.u==='bu'?'Now':tk.u==='bs'?'Soon':'On track';
+  row.innerHTML=`
+    <div class="chk${tk.done?' dn':''}" data-pid="${pid}" data-tid="${tk.id}">${tk.done?'✓':''}</div>
+    <div>
+      <div class="tt${tk.done?' dn':''}" data-tid="${tk.id}" data-f="t" contenteditable="${editMode?'true':'false'}" spellcheck="false">${tk.t}</div>
+      <div class="tn" data-tid="${tk.id}" data-f="n" contenteditable="${editMode?'true':'false'}" spellcheck="false" style="display:${tk.n?'block':'none'}">${tk.n}</div>
+      <div class="twho" data-tid="${tk.id}" data-f="who" contenteditable="${editMode?'true':'false'}" spellcheck="false">${tk.who?'→ '+tk.who:''}</div>
+    </div>
+    <span class="bdg ${tk.u}" data-pid="${pid}" data-tid="${tk.id}">${bl}</span>
+    <span class="t-del" data-pid="${pid}" data-tid="${tk.id}">×</span>`;
+  row.querySelector('.chk').onclick=function(){toggleDone(this.dataset.pid,this.dataset.tid);};
+  row.querySelector(`[data-f="t"]`).addEventListener('blur',function(){tk.t=this.textContent;save();});
+  row.querySelector(`[data-f="n"]`).addEventListener('blur',function(){tk.n=this.textContent;this.style.display=tk.n?'block':'none';save();});
+  row.querySelector(`[data-f="who"]`).addEventListener('blur',function(){const r=this.textContent.replace(/^→\s*/,'');tk.who=r;this.textContent=r?'→ '+r:'';save();});
+  row.querySelector('.bdg').onclick=function(){if(editMode)cycleU(this.dataset.pid,this.dataset.tid);};
+  row.querySelector('.t-del').onclick=function(){const ph=S.phases.find(p=>p.id===this.dataset.pid);ph.tasks=ph.tasks.filter(t=>t.id!==this.dataset.tid);save();buildPhases();};
+  return row;
+}
 
-// BUDGET ROWS
-const budData = [
-  { cat: 'Venue & catering (80 @ R550)', amt: 'R44 000', note: 'Increase if >80 guests confirmed' },
-  { cat: 'Drinks — champagne & canapés', amt: 'R5 000', note: 'Confirm reception drinks separately' },
-  { cat: 'Surcharge (12%)', amt: 'R5 880', note: 'Applied to catering total' },
-  { cat: 'Photography & videography', amt: 'R15 000', note: 'Charl quote — compare 2 more' },
-  { cat: 'Suit & accessories', amt: 'R8 000', note: 'Classic black & white tuxedo' },
-  { cat: 'Dress & accessories', amt: 'R5 000', note: 'Budget likely needs revisiting' },
-  { cat: 'Décor, flowers & cake', amt: 'R6 000', note: 'Eike & Kelly — DIY where possible' },
-  { cat: 'Music / DJ / sound', amt: 'R0', note: 'Unconfirmed — add once Nugeon quotes' },
-  { cat: 'Rings', amt: 'R5 000', note: 'Simple gold/silver bands' },
-  { cat: 'Invitations & stationery', amt: 'R3 000', note: 'Digital route planned' },
-  { cat: 'Hair, makeup & beauty', amt: 'R3 000', note: 'Trials + day-of for bride' },
-  { cat: 'Officiant & legal fees', amt: 'R2 000', note: 'Home Affairs registration needed' },
-  { cat: 'Accommodation', amt: 'R10 000', note: 'Both families block-booked' },
-  { cat: 'Contingency / miscellaneous', amt: 'R7 000', note: 'Protect this — do not raid it' },
-];
-const br = document.getElementById('budrows');
-budData.forEach(b => {
-  const row = document.createElement('div'); row.className = 'bud-row';
-  row.innerHTML = `<div><div style="color:var(--text)">${b.cat}</div><div class="bud-note">${b.note}</div></div><div style="font-weight:500;color:var(--text);white-space:nowrap">${b.amt}</div>`;
-  br.appendChild(row);
-});
-const tot = document.createElement('div'); tot.className = 'bud-total';
-tot.innerHTML = '<div>Total budget</div><div>R118 880</div>';
-br.appendChild(tot);
+function toggleDone(pid,tid){
+  const ph=S.phases.find(p=>p.id===pid),tk=ph.tasks.find(t=>t.id===tid);
+  tk.done=!tk.done;save();
+  const chk=document.querySelector(`#tr-${tid} .chk`),tt=document.querySelector(`#tr-${tid} .tt`);
+  chk.classList.toggle('dn',tk.done);chk.textContent=tk.done?'✓':'';tt.classList.toggle('dn',tk.done);
+  document.querySelector(`#pb-${pid} .pm`).textContent=ph.tasks.filter(t=>t.done).length+'/'+ph.tasks.length;
+}
 
-// GUEST LISTS
-const svh = [
-  'Belinda Van Harte','Leticia Diest','Clint Diest','Harper Diest','Reign Diest',
-  'Godfrey Van Harte','Felicia Van Harte','Bradley','Lucille','Robin',
-  'Chelsea','Noel','Lene','Avril','Valda','Tyrone','Gran','Lex','Zhu','Grant',
-  'Kelly','Lauren','Kim','Lucia','Shaun','Eike','Bran','Huey','Nicole','Nana',
-  'Dale','Joylin','Tania','Dwayne','Lindelani','Lukho','Zandi','Ndina','Kirsten','Nonku'
-];
-const js = [
-  'Mom','X — confirm name','Mbali','Percy','Percy wife','Kids? (confirm)','Uncle','Aunt',
-  'Mandla','Mandla wife','Mums friend','Omanda jnr','Omanda snr','Kudzi','Wesley',
-  'Beauty','Tino','Tino +1','Suares','Taps','Taps wife','Nono','Charlene','Nosi',
-  'Mums friend','Mums friend','Kudzi','Kylie','Nugeon','Raisa','Wilson','Shannon',
-  'Mike','Kennedy','Roxanne','Ziggy','Cebile','Nugeon ⚠ dup?','Kylie ⚠ dup?'
-];
-const svhL = document.getElementById('svh-list');
-const jsL = document.getElementById('js-list');
-svh.forEach((n, i) => {
-  const r = document.createElement('div'); r.className = 'gc-row';
-  const needsPlus = n === 'Lindelani';
-  r.innerHTML = `<span class="gc-num">${i + 1}</span><span>${n}</span>${needsPlus ? '<span class="gc-plus">+1 needed</span>' : ''}`;
-  svhL.appendChild(r);
-});
-js.forEach((n, i) => {
-  const r = document.createElement('div'); r.className = 'gc-row';
-  const flag = n.includes('⚠') || n.includes('confirm');
-  r.innerHTML = `<span class="gc-num">${i + 41}</span><span class="${flag ? 'flag' : ''}">${n}</span>`;
-  jsL.appendChild(r);
-});
+function cycleU(pid,tid){
+  const ph=S.phases.find(p=>p.id===pid),tk=ph.tasks.find(t=>t.id===tid);
+  const cyc=['bu','bs','bo'];tk.u=cyc[(cyc.indexOf(tk.u)+1)%3];save();
+  const bdg=document.querySelector(`#tr-${tid} .bdg`);
+  bdg.className='bdg '+tk.u;bdg.textContent=tk.u==='bu'?'Now':tk.u==='bs'?'Soon':'On track';
+}
+
+// ── TASK MODAL ───────────────────────────────────────────────────────────────
+function openT(pid){tgt=pid;['mt','mn','mw'].forEach(i=>document.getElementById(i).value='');document.getElementById('mp').value='bs';document.getElementById('tmodal').classList.add('show');setTimeout(()=>document.getElementById('mt').focus(),80);}
+function closeT(){document.getElementById('tmodal').classList.remove('show');tgt=null;}
+function submitT(){
+  const t=document.getElementById('mt').value.trim();if(!t)return;
+  const ph=S.phases.find(p=>p.id===tgt);
+  ph.tasks.push({id:nid(),t,n:document.getElementById('mn').value.trim(),who:document.getElementById('mw').value.trim(),u:document.getElementById('mp').value,done:false});
+  save();closeT();buildPhases();
+  const bd=document.getElementById('pbd-'+tgt);if(!bd.classList.contains('o')){bd.classList.add('o');document.getElementById('pch-'+tgt).classList.add('o');}
+}
+
+// ── PHASE MODAL ───────────────────────────────────────────────────────────────
+function openPhaseModal(){document.getElementById('mpn').value='';document.getElementById('pmodal').classList.add('show');setTimeout(()=>document.getElementById('mpn').focus(),80);}
+function closeP(){document.getElementById('pmodal').classList.remove('show');}
+function submitP(){
+  const n=document.getElementById('mpn').value.trim();if(!n)return;
+  S.phases.push({id:nid(),name:n,color:COLORS[Math.floor(Math.random()*COLORS.length)],tasks:[]});
+  save();closeP();buildPhases();
+}
+
+// ── COLOR PICKER ─────────────────────────────────────────────────────────────
+function openCPick(pid,dot){
+  ctgt=pid;
+  const cp=document.getElementById('cpick');cp.innerHTML='';
+  COLORS.forEach(c=>{const sw=document.createElement('div');sw.className='csw';sw.style.background=c;sw.onclick=()=>{const ph=S.phases.find(p=>p.id===ctgt);ph.color=c;dot.style.background=c;save();cp.style.display='none';ctgt=null;};cp.appendChild(sw);});
+  const r=dot.getBoundingClientRect();
+  cp.style.left=(r.left+window.scrollX)+'px';cp.style.top=(r.bottom+window.scrollY+4)+'px';cp.style.display='flex';
+}
+document.addEventListener('click',e=>{if(!e.target.classList.contains('pdot')&&!e.target.classList.contains('csw')){document.getElementById('cpick').style.display='none';ctgt=null;}});
+
+// ── GENERIC CARDS ─────────────────────────────────────────────────────────────
+function buildCards(arr,containerId,key){
+  const el=document.getElementById(containerId);el.innerHTML='';
+  arr.forEach(card=>{
+    const d=document.createElement('div');d.className='ac';d.id='card-'+card.id;
+    d.innerHTML=`<div class="ac-del" data-cid="${card.id}" data-key="${key}">× Remove</div><div class="at" contenteditable="${editMode?'true':'false'}" spellcheck="false">${card.title}</div><div class="ab" contenteditable="${editMode?'true':'false'}" spellcheck="false">${card.body}</div>`;
+    d.querySelector('.ac-del').onclick=function(){S.cards[this.dataset.key]=S.cards[this.dataset.key].filter(c=>c.id!==this.dataset.cid);save();renderAll();};
+    d.querySelector('.at').addEventListener('blur',function(){card.title=this.innerHTML;save();});
+    d.querySelector('.ab').addEventListener('blur',function(){card.body=this.innerHTML;save();});
+    el.appendChild(d);
+  });
+  const ab=document.createElement('button');ab.className='add-card-btn';ab.textContent='+ Add note card';
+  ab.onclick=()=>{arr.push({id:nid(),title:'New note',body:'Click to edit...'});save();buildCards(arr,containerId,key);};
+  el.appendChild(ab);
+}
+
+// ── QUOTES ───────────────────────────────────────────────────────────────────
+function buildQuotes(){
+  const g=document.getElementById('qg');g.innerHTML='';
+  S.quotes.forEach(q=>{
+    const c=document.createElement('div');c.className='qc';
+    c.innerHTML=`<div class="qc-del" data-qid="${q.id}">×</div><div class="qs" contenteditable="${editMode?'true':'false'}" spellcheck="false">${q.s}</div><div class="qd" contenteditable="${editMode?'true':'false'}" spellcheck="false">Deadline: ${q.d}</div><div class="qd" contenteditable="${editMode?'true':'false'}" spellcheck="false">${q.n}</div><div class="qu ${q.u}">${q.ul}</div>`;
+    c.querySelector('.qc-del').onclick=function(){S.quotes=S.quotes.filter(x=>x.id!==this.dataset.qid);save();buildQuotes();};
+    const eds=c.querySelectorAll('[contenteditable]');
+    eds[0].addEventListener('blur',function(){q.s=this.textContent;save();});
+    eds[1].addEventListener('blur',function(){q.d=this.textContent.replace('Deadline: ','');save();});
+    eds[2].addEventListener('blur',function(){q.n=this.textContent;save();});
+    g.appendChild(c);
+  });
+  const ab=document.createElement('button');ab.className='add-qbtn';ab.textContent='+ Add vendor';
+  ab.onclick=()=>{S.quotes.push({id:nid(),s:'New vendor',d:'Month 2026',u:'us',ul:'Book soon',n:'Details here'});save();buildQuotes();};
+  g.appendChild(ab);
+  buildCards(S.cards.quotes,'qcards','quotes');
+}
+
+// ── SAVINGS ───────────────────────────────────────────────────────────────────
+function buildSavings(){
+  const g=document.getElementById('sg');g.innerHTML='';
+  S.savings.forEach(s=>{
+    const c=document.createElement('div');c.className='sc';
+    c.innerHTML=`<div class="sc-del" data-sid="${s.id}">×</div><div class="ss" contenteditable="${editMode?'true':'false'}" spellcheck="false">${s.label}</div><div class="sa" contenteditable="${editMode?'true':'false'}" spellcheck="false">${s.amount}</div><div class="sn" contenteditable="${editMode?'true':'false'}" spellcheck="false">${s.note}</div>`;
+    c.querySelector('.sc-del').onclick=function(){S.savings=S.savings.filter(x=>x.id!==this.dataset.sid);save();buildSavings();};
+    const eds=c.querySelectorAll('[contenteditable]');
+    eds[0].addEventListener('blur',function(){s.label=this.textContent;save();});
+    eds[1].addEventListener('blur',function(){s.amount=this.textContent;save();});
+    eds[2].addEventListener('blur',function(){s.note=this.textContent;save();});
+    g.appendChild(c);
+  });
+  const ab=document.createElement('div');ab.className='add-qbtn';ab.textContent='+ Add savings source';ab.style.cursor='pointer';
+  ab.onclick=()=>{S.savings.push({id:nid(),label:'New source',amount:'R0',note:'Details here'});save();buildSavings();};
+  g.appendChild(ab);
+  // Milestones
+  const mr=document.getElementById('miles');mr.innerHTML='';
+  S.milestones.forEach((ms,i)=>{
+    const row=document.createElement('div');
+    row.style.cssText=`display:grid;grid-template-columns:140px 65px 85px 1fr;gap:10px;align-items:center;padding:9px 16px;border-bottom:${i<S.milestones.length-1?'1px solid var(--border)':'none'};font-size:12px`;
+    row.innerHTML=`<div contenteditable="${editMode?'true':'false'}" spellcheck="false" style="color:var(--text)">${ms.m}</div><div contenteditable="${editMode?'true':'false'}" spellcheck="false" style="color:var(--text2)">${ms.g}</div><div contenteditable="${editMode?'true':'false'}" spellcheck="false" style="font-weight:500">${ms.c}</div><div contenteditable="${editMode?'true':'false'}" spellcheck="false" style="color:var(--text2)">${ms.note}</div>`;
+    const eds=row.querySelectorAll('[contenteditable]');
+    eds[0].addEventListener('blur',function(){ms.m=this.textContent;save();});
+    eds[1].addEventListener('blur',function(){ms.g=this.textContent;save();});
+    eds[2].addEventListener('blur',function(){ms.c=this.textContent;save();});
+    eds[3].addEventListener('blur',function(){ms.note=this.textContent;save();});
+    mr.appendChild(row);
+  });
+  buildCards(S.cards.save,'scards','save');
+}
+
+// ── BUDGET ───────────────────────────────────────────────────────────────────
+function buildBudget(){
+  const c=document.getElementById('budrows');c.innerHTML='';
+  S.budget.forEach(b=>{
+    const row=document.createElement('div');row.className='br';
+    row.innerHTML=`<div><div contenteditable="${editMode?'true':'false'}" spellcheck="false" style="color:var(--text)">${b.cat}</div><div class="bn" contenteditable="${editMode?'true':'false'}" spellcheck="false">${b.note}</div></div><div contenteditable="${editMode?'true':'false'}" spellcheck="false" style="font-weight:500;white-space:nowrap">${b.amt}</div><div class="b-del" data-bid="${b.id}">×</div>`;
+    row.querySelector('.b-del').onclick=function(){S.budget=S.budget.filter(x=>x.id!==this.dataset.bid);save();buildBudget();};
+    const eds=row.querySelectorAll('[contenteditable]');
+    eds[0].addEventListener('blur',function(){b.cat=this.textContent;save();});
+    eds[1].addEventListener('blur',function(){b.note=this.textContent;save();});
+    eds[2].addEventListener('blur',function(){b.amt=this.textContent;save();});
+    c.appendChild(row);
+  });
+  const ab=document.createElement('button');ab.className='add-bbtn';ab.textContent='+ Add budget line';
+  ab.onclick=()=>{S.budget.push({id:nid(),cat:'New item',amt:'R0',note:''});save();buildBudget();};
+  c.appendChild(ab);
+  const tot=document.createElement('div');tot.className='btotal';tot.innerHTML='<div>Total budget</div><div>R118 880</div>';
+  c.appendChild(tot);
+  buildCards(S.cards.budget,'bcards','budget');
+}
+
+// ── GUESTS ────────────────────────────────────────────────────────────────────
+function buildGuests(){
+  ['svh','js'].forEach(side=>{
+    const el=document.getElementById(side+'-list');el.innerHTML='';
+    S.guests[side].forEach((name,i)=>{
+      const flag=name.includes('⚠')||name.toLowerCase().includes('confirm')||name.includes('?');
+      const row=document.createElement('div');row.className='gr';
+      row.innerHTML=`<span class="gnum">${i+1}</span><span class="gname${flag?' flag':''}" contenteditable="${editMode?'true':'false'}" spellcheck="false">${name}</span><span class="g-del" data-side="${side}" data-i="${i}">×</span>`;
+      row.querySelector('.gname').addEventListener('blur',function(){S.guests[side][i]=this.textContent;save();});
+      row.querySelector('.g-del').onclick=function(){S.guests[this.dataset.side].splice(parseInt(this.dataset.i),1);save();buildGuests();};
+      el.appendChild(row);
+    });
+  });
+  buildCards(S.cards.guests,'gcards','guests');
+}
+function addG(side){S.guests[side].push('New guest');save();buildGuests();}
+
+// ── RENDER ALL ────────────────────────────────────────────────────────────────
+function renderAll(){
+  buildPhases();
+  buildQuotes();
+  buildSavings();
+  buildBudget();
+  buildGuests();
+  buildCards(S.cards.family,'fcards','family');
+  buildCards(S.cards.qns,'qncards','qns');
+}
+renderAll();
 </script>
 </body>
 </html>
+ 
