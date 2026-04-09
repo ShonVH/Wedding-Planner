@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JS & SVH — Wedding Planner 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #faf9f7;
+    --bg2: #f2f0ec;
+    --bg3: #fff;
+    --text: #1a1a1a;
+    --text2: #555;
+    --text3: #999;
+    --border: rgba(0,0,0,0.1);
+    --border2: rgba(0,0,0,0.15);
+    --success-bg: #eaf3de;
+    --success-border: #639922;
+    --success-text: #3b6d11;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+  }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+
+  /* HEADER */
+  .hdr { margin-bottom: 1.5rem; }
+  .htitle { font-family: 'Cormorant Garamond', serif; font-size: 30px; font-weight: 400; color: var(--text); letter-spacing: .02em; }
+  .hsub { font-size: 12px; color: var(--text2); margin-top: 4px; font-weight: 300; }
+
+  /* COUNTDOWN */
+  .cd { display: flex; gap: 10px; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .cdc { background: var(--bg2); border-radius: var(--radius-md); padding: 12px 16px; flex: 1; min-width: 90px; text-align: center; }
+  .cdn { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 500; color: var(--text); }
+  .cdl { font-size: 10px; color: var(--text2); text-transform: uppercase; letter-spacing: .08em; margin-top: 1px; }
+
+  /* TABS */
+  .tabs { display: flex; gap: 2px; flex-wrap: wrap; border-bottom: 1px solid var(--border); margin-bottom: 1.25rem; }
+  .tab { padding: 8px 14px; font-size: 12px; font-weight: 400; color: var(--text2); cursor: pointer; border: none; background: none; border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; font-family: 'DM Sans', sans-serif; transition: color .15s; }
+  .tab:hover { color: var(--text); }
+  .tab.on { color: var(--text); border-bottom-color: var(--text); font-weight: 500; }
+  .sec { display: none; } .sec.on { display: block; }
+
+  /* PHASE BLOCKS */
+  .pb { border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: .75rem; background: var(--bg3); }
+  .ph { padding: 12px 16px; display: flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; }
+  .ph:hover { background: var(--bg2); }
+  .pdot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+  .pn { font-size: 13px; font-weight: 500; color: var(--text); flex: 1; }
+  .pm { font-size: 11px; color: var(--text2); }
+  .pch { font-size: 11px; color: var(--text3); transition: transform .2s; }
+  .pch.o { transform: rotate(90deg); }
+  .pbd { display: none; border-top: 1px solid var(--border); }
+  .pbd.o { display: block; }
+
+  /* TASK ROWS */
+  .tr { display: grid; grid-template-columns: 16px 1fr auto; gap: 10px; align-items: start; padding: 10px 16px; border-bottom: 1px solid var(--border); }
+  .tr:last-child { border-bottom: none; }
+  .chk { width: 14px; height: 14px; border-radius: 3px; border: 1px solid var(--border2); cursor: pointer; flex-shrink: 0; margin-top: 2px; display: flex; align-items: center; justify-content: center; font-size: 9px; background: none; transition: background .15s; }
+  .chk.dn { background: var(--success-bg); border-color: var(--success-border); color: var(--success-text); }
+  .tt { font-size: 13px; color: var(--text); line-height: 1.5; }
+  .tt.dn { text-decoration: line-through; color: var(--text3); }
+  .tn { font-size: 11px; color: var(--text2); margin-top: 2px; }
+  .twho { font-size: 10px; color: var(--text3); margin-top: 1px; }
+  .bdg { font-size: 10px; padding: 2px 7px; border-radius: 8px; white-space: nowrap; font-weight: 500; flex-shrink: 0; }
+  .bu { background: #FCEBEB; color: #A32D2D; }
+  .bs { background: #FAEEDA; color: #854F0B; }
+  .bo { background: #EAF3DE; color: #3B6D11; }
+
+  /* ADVICE CARDS */
+  .ac { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1rem 1.2rem; margin-bottom: .75rem; }
+  .at { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 500; color: var(--text); margin-bottom: 6px; }
+  .ab { font-size: 13px; color: var(--text2); line-height: 1.7; }
+  .ab ul { padding-left: 18px; margin-top: 6px; }
+  .ab li { margin-bottom: 4px; }
+
+  /* SECTION LABEL */
+  .sl { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--text3); font-weight: 500; margin-bottom: 8px; margin-top: 1.25rem; }
+  .sl:first-child { margin-top: 0; }
+
+  /* QUOTE GRID */
+  .qg { display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 9px; margin-bottom: 1rem; }
+  .qc { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 11px 13px; }
+  .qs { font-size: 13px; font-weight: 500; color: var(--text); }
+  .qd { font-size: 11px; color: var(--text2); margin-top: 2px; }
+  .qu { font-size: 11px; font-weight: 500; margin-top: 6px; }
+  .ut { color: #A32D2D; } .us { color: #854F0B; } .uo { color: #3B6D11; }
+
+  /* SAVINGS */
+  .sav-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 9px; margin-bottom: .75rem; }
+  .sav-c { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 11px 13px; }
+  .sav-s { font-size: 13px; font-weight: 500; color: var(--text); }
+  .sav-a { font-size: 20px; font-family: 'Cormorant Garamond', serif; color: var(--text); margin-top: 2px; }
+  .sav-n { font-size: 11px; color: var(--text2); margin-top: 2px; }
+
+  /* GUEST LIST */
+  .gc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media(max-width:520px){ .gc-grid { grid-template-columns: 1fr; } }
+  .gc-col { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 10px 13px; }
+  .gc-head { font-size: 11px; font-weight: 500; color: var(--text2); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+  .gc-row { font-size: 12px; color: var(--text); padding: 4px 0; border-bottom: 1px solid var(--border); display: flex; gap: 6px; align-items: baseline; }
+  .gc-row:last-child { border-bottom: none; }
+  .gc-num { font-size: 10px; color: var(--text3); flex-shrink: 0; width: 20px; }
+  .gc-plus { font-size: 10px; color: var(--text3); margin-left: auto; }
+  .flag { color: #A32D2D; }
+
+  /* BUDGET TABLE */
+  .bud-row { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: start; padding: 9px 16px; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .bud-row:last-child { border-bottom: none; }
+  .bud-note { font-size: 10px; color: var(--text2); margin-top: 1px; }
+  .bud-total { display: grid; grid-template-columns: 1fr auto; gap: 10px; padding: 11px 16px; font-size: 14px; font-weight: 500; background: var(--bg2); }
+
+  /* PROGRESS */
+  .prog-wrap { height: 4px; background: var(--bg2); border-radius: 2px; margin-top: 8px; }
+  .prog-bar { height: 100%; border-radius: 2px; background: #1D9E75; }
+
+  /* SAVE INDICATOR */
+  .save-note { font-size: 11px; color: var(--text3); text-align: right; margin-bottom: 8px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hdr">
+    <div class="htitle">JS &amp; SVH — Wedding Planner</div>
+    <div class="hsub">21 December 2026 &nbsp;·&nbsp; The Copper Collection, The Lawns &nbsp;·&nbsp; Cape Town &nbsp;·&nbsp; 80–120 guests</div>
+  </div>
+
+  <div class="cd">
+    <div class="cdc"><div class="cdn" id="cm">--</div><div class="cdl">Months</div></div>
+    <div class="cdc"><div class="cdn" id="cw">--</div><div class="cdl">Weeks</div></div>
+    <div class="cdc"><div class="cdn" id="cd2">--</div><div class="cdl">Days</div></div>
+  </div>
+
+  <div class="save-note" id="save-note">Progress auto-saved in your browser</div>
+
+  <div class="tabs">
+    <button class="tab on" onclick="sw('plan')">Project Plan</button>
+    <button class="tab" onclick="sw('quotes')">Quote Deadlines</button>
+    <button class="tab" onclick="sw('save')">Savings Plan</button>
+    <button class="tab" onclick="sw('budget')">Budget</button>
+    <button class="tab" onclick="sw('guests')">Guest List</button>
+    <button class="tab" onclick="sw('family')">Family Meet-Up</button>
+    <button class="tab" onclick="sw('qns')">Open Questions</button>
+  </div>
+
+  <!-- PROJECT PLAN -->
+  <div class="sec on" id="s-plan">
+    <div id="pc"></div>
+    <div style="font-size:11px;color:var(--text3);margin-top:1rem;text-align:center">Tick tasks as you complete them — progress saves automatically in your browser</div>
+  </div>
+
+  <!-- QUOTES -->
+  <div class="sec" id="s-quotes">
+    <div class="sl">Vendor quote deadlines — act on these in order</div>
+    <div class="qg" id="qg"></div>
+    <div class="ac">
+      <div class="at">Your vendor notes</div>
+      <div class="ab"><ul>
+        <li><strong>Photography:</strong> Charl has quoted — compare at least 2 more options. Book by May 2026.</li>
+        <li><strong>DJ/Sound:</strong> Check Nugeon first. If Joshua (saxophonist) is available, book him for the canapé hour.</li>
+        <li><strong>Décor &amp; Flowers:</strong> Eike and Kelly are your leads — brief them early on colour palette.</li>
+        <li><strong>Stationery:</strong> Digital invites planned — consider using Claude to build a custom invite page.</li>
+        <li><strong>Officiant:</strong> Still undecided — who will marry you? Resolve by February 2026.</li>
+        <li><strong>Venue catering:</strong> Confirmed at R550/head for 80 guests (R44 000). Confirm final count by October 2026.</li>
+      </ul></div>
+    </div>
+  </div>
+
+  <!-- SAVINGS -->
+  <div class="sec" id="s-save">
+    <div class="sl">Savings sources — total target R160 000</div>
+    <div class="sav-grid">
+      <div class="sav-c"><div class="sav-s">Shon (FA savings)</div><div class="sav-a">R60 000</div><div class="sav-n">Starting January 2026</div></div>
+      <div class="sav-c"><div class="sav-s">One39 savings</div><div class="sav-a">R27 000</div><div class="sav-n">Starting April 2026</div></div>
+      <div class="sav-c"><div class="sav-s">Mom contribution</div><div class="sav-a">R10 000</div><div class="sav-n">R1 100/month from April</div></div>
+      <div class="sav-c"><div class="sav-s">Josh family</div><div class="sav-a">R10 000</div><div class="sav-n">Confirm timing</div></div>
+      <div class="sav-c"><div class="sav-s">Emergency fund (EE)</div><div class="sav-a">R40 000</div><div class="sav-n">Easy Equities — last resort</div></div>
+      <div class="sav-c"><div class="sav-s">Find the gap</div><div class="sav-a">R13 000</div><div class="sav-n">To be sourced</div></div>
+    </div>
+    <div class="sl">Monthly milestone plan (Nov 2025 – Oct 2026)</div>
+    <div class="ac" style="padding:0"><div id="savrows"></div></div>
+    <div class="ac" style="margin-top:.5rem">
+      <div class="at">Savings advice</div>
+      <div class="ab"><ul>
+        <li>Total budget is R118 880 — headroom exists if the R13 000 gap is closed, which is very achievable.</li>
+        <li>Do not touch the Easy Equities fund unless absolutely necessary — it is your true safety net.</li>
+        <li>Set up a dedicated joint savings account just for the wedding, ring-fenced from day-to-day spending.</li>
+        <li>Review together monthly — if one month falls short, compensate the next.</li>
+      </ul></div>
+    </div>
+  </div>
+
+  <!-- BUDGET -->
+  <div class="sec" id="s-budget">
+    <div class="sl">Budget breakdown — total R118 880</div>
+    <div class="ac" style="padding:0"><div id="budrows"></div></div>
+    <div class="ac" style="margin-top:.5rem">
+      <div class="at">Budget flags &amp; advice</div>
+      <div class="ab"><ul>
+        <li><strong>Venue &amp; catering (R44 000):</strong> Based on 80 guests @ R550/head. If numbers rise to 120, budget this line at R66 000 — revisit the overall plan.</li>
+        <li><strong>Drinks (R5 000):</strong> Covers champagne and canapés only. Confirm reception drinks with venue.</li>
+        <li><strong>Photography (R15 000):</strong> Charl has quoted — get 2 more. Realistic but not top-tier. Decide what matters most.</li>
+        <li><strong>Music (R0):</strong> DJ unconfirmed and budgeted at zero. A decent Cape Town DJ runs R5 000–R12 000. Add once Nugeon quotes.</li>
+        <li><strong>Dress (R5 000):</strong> Tight — most gowns start at R8 000–R15 000. Revisit after boutique visits.</li>
+        <li><strong>Contingency (R7 000):</strong> Healthy — protect this. Do not raid it for planned expenses.</li>
+      </ul></div>
+    </div>
+  </div>
+
+  <!-- GUESTS -->
+  <div class="sec" id="s-guests">
+    <div class="sl">Guest list — 80 confirmed + 18 optional</div>
+    <div class="gc-grid">
+      <div class="gc-col">
+        <div class="gc-head">SVH side (40 guests)</div>
+        <div id="svh-list"></div>
+      </div>
+      <div class="gc-col">
+        <div class="gc-head">JS side (39 guests)</div>
+        <div id="js-list"></div>
+      </div>
+    </div>
+    <div class="ac" style="margin-top:.75rem">
+      <div class="at">Optional / sub-in list (18 names)</div>
+      <div class="ab">Kate, Trent, Matthew, Amy, Liam, Darryl, Staci, Stephan + Partner, Dums, Mandla &amp; Partner, Grant, Verushka, Nugeon, Kylie — your buffer if confirmed guests decline.</div>
+    </div>
+    <div class="ac">
+      <div class="at">Guest list actions needed</div>
+      <div class="ab"><ul>
+        <li>Collect contact numbers for all guests — column is empty across the board.</li>
+        <li>Confirm surnames for JS-side guests where missing.</li>
+        <li>Lindelani needs a +1 confirmed. Bran brings Kylie. Nonku brings Shannon. Note for seating.</li>
+        <li>Confirm if Percy's wife and kids are in the 80-guest count.</li>
+        <li>Resolve guest #42 JS side — who is "X"?</li>
+        <li>Nugeon appears twice on JS list (entries 69 &amp; 78) — check for duplicate.</li>
+        <li>Kylie appears twice on JS list (entries 68 &amp; 79) — check for duplicate.</li>
+      </ul></div>
+    </div>
+  </div>
+
+  <!-- FAMILY -->
+  <div class="sec" id="s-family">
+    <div class="ac">
+      <div class="at">The family welcome dinner — Friday 19 December 2026</div>
+      <div class="ab">A structured but relaxed gathering 2 nights before the wedding gives both families time to meet without the pressure of the big day. Both families are within South Africa — this makes logistics manageable and a single-night event sufficient.</div>
+    </div>
+    <div class="ac">
+      <div class="at">Format — Cape Town braai or garden dinner</div>
+      <div class="ab">Host it at a different venue from The Lawns — keep the wedding venue special for the day itself. A private braai or garden dinner at a guesthouse works beautifully. Aim for 6pm arrival, relaxed pace, done by 10pm.
+        <ul>
+          <li>Shared platters and a braai encourage mingling far better than a formal menu.</li>
+          <li>Keep it inclusive — children and non-drinkers should feel equally welcome.</li>
+          <li>Background music only — no formal speeches until everyone has settled in.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ac">
+      <div class="at">How to help both families connect</div>
+      <div class="ab"><ul>
+        <li><strong>Mixed seating deliberately arranged:</strong> Do not let SVH sit with SVH and JS with JS. Seat by age group or shared interests.</li>
+        <li><strong>Couple's growing-up slideshow:</strong> Run on a TV — childhood photos give everyone something to talk about immediately.</li>
+        <li><strong>Name cards with a conversation starter:</strong> "Ask me about..." on each card breaks the ice without pressure.</li>
+        <li><strong>One fun icebreaker:</strong> "How well do you know JS &amp; SVH?" — gets everyone laughing across family lines.</li>
+        <li><strong>Brief warm welcomes:</strong> Both sets of parents stand and say 2 minutes of welcome — not speeches, just warmth.</li>
+        <li><strong>Welcome gift bag:</strong> Local gift (wine, biltong, Cape fudge) for out-of-town guests.</li>
+      </ul></div>
+    </div>
+    <div class="ac">
+      <div class="at">Practical logistics</div>
+      <div class="ab"><ul>
+        <li>Book a block of rooms at one hotel or guesthouse for both families — shared accommodation builds familiarity overnight.</li>
+        <li>Arrange a shuttle from accommodation to the welcome dinner and back — 30–45 minutes on a bus together is worth more than any icebreaker game.</li>
+        <li>Create a WhatsApp group for the full guest weekend — Friday dinner address, Saturday suggestions, Sunday ceremony details.</li>
+        <li>Appoint one coordinator from each family side to handle queries so you are free to enjoy your weekend.</li>
+      </ul></div>
+    </div>
+  </div>
+
+  <!-- OPEN QUESTIONS -->
+  <div class="sec" id="s-qns">
+    <div class="ac">
+      <div class="at">Decisions still needed — don't leave these too long</div>
+      <div class="ab"><ul>
+        <li><strong>Who will marry you?</strong> Officiant undecided. Affects legal Home Affairs registration. Decide by February 2026.</li>
+        <li><strong>Possible MCs?</strong> Shortlist 2–3 names — someone who knows both families and has stage presence.</li>
+        <li><strong>Wedding party size?</strong> One bridesmaid and one groomsman, or more? Affects attire, hair &amp; makeup, and bouquet costs.</li>
+        <li><strong>Reception programme:</strong> Draft a run-of-show from ceremony to last dance before briefing DJ, caterer, and photographer.</li>
+        <li><strong>DJ music budget:</strong> Currently R0 — get Nugeon's quote and add to budget.</li>
+        <li><strong>Digital invite:</strong> You noted "use Claude to build the invite" — when ready, come back and I will build a full custom invite page for you.</li>
+        <li><strong>Dress budget (R5 000):</strong> Revisit after boutique visits. Flag as a yellow line item.</li>
+        <li><strong>Guest X (JS #42):</strong> Confirm name for the guest list.</li>
+      </ul></div>
+    </div>
+  </div>
+
+</div><!-- end wrap -->
+
+<script>
+// COUNTDOWN
+const wed = new Date('2026-12-21T10:00:00');
+function upd() {
+  const d = Math.floor((wed - new Date()) / 86400000);
+  document.getElementById('cm').textContent = Math.floor(d / 30.44);
+  document.getElementById('cw').textContent = Math.floor(d / 7);
+  document.getElementById('cd2').textContent = d;
+}
+upd();
+
+// TAB SWITCHER
+const tabIds = ['plan','quotes','save','budget','guests','family','qns'];
+function sw(id) {
+  document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('on', tabIds[i] === id));
+  document.querySelectorAll('.sec').forEach(s => s.classList.toggle('on', s.id === 's-' + id));
+}
+
+// PHASES DATA
+const phases = [
+  { name: 'Phase 1 — Right now (April – May 2026)', color: '#A32D2D', tasks: [
+    { t: 'Finalise and sign venue contract with The Copper Collection — The Lawns', n: 'Confirm catering rate R550/head, capacity for 120, and what is included', who: 'JS', u: 'bu' },
+    { t: 'Pay venue deposit to secure 21 December 2026', n: 'Get receipt and confirm cancellation terms in writing', who: 'JS', u: 'bu' },
+    { t: 'Decide on officiant / marriage officer — who will marry you?', n: 'Register notice of marriage at Home Affairs minimum 3 months before wedding', who: 'Both', u: 'bu' },
+    { t: 'Book photographer — Charl or shortlist alternative; get at least 3 quotes', n: 'December fills first. Budget R15 000. Confirm full day hours.', who: 'Both', u: 'bu' },
+    { t: 'Contact Nugeon re: DJ availability and quote for 21 December 2026', n: 'Also check if Joshua (saxophonist) is available for the canapé hour', who: 'JS', u: 'bu' },
+    { t: 'Confirm wedding party — bridesmaids and groomsmen, one each or more?', n: 'Affects dress ordering, suit fittings, hair & makeup, and bouquet costs', who: 'Both', u: 'bu' },
+    { t: 'Begin bridal dress research — visit 3–4 Cape Town boutiques', n: 'R5 000 budget is tight; gowns typically start at R8–15K. Revisit budget after visits.', who: 'Shon', u: 'bu' },
+    { t: 'Compile full guest list with contact numbers and email addresses', n: 'Contact numbers are currently missing for all guests — collect these now', who: 'Both', u: 'bu' },
+    { t: 'Resolve guest list duplicates: Nugeon (entries 69 & 78), Kylie (68 & 79)', n: 'Also confirm who "X" is on the JS list (guest #42)', who: 'JS', u: 'bu' },
+    { t: 'Book honeymoon — December is peak season across SA and internationally', n: 'Decide on destination and book flights + accommodation now', who: 'Both', u: 'bu' },
+  ]},
+  { name: 'Phase 2 — Vendors & Attire (May – July 2026)', color: '#854F0B', tasks: [
+    { t: 'Order wedding dress (hard deadline: June 2026)', n: '5–6 months production + 2 rounds of alterations before December', who: 'Shon', u: 'bs' },
+    { t: 'Book and confirm DJ / Nugeon — sign contract', n: 'Include overtime rate clause in contract', who: 'JS', u: 'bs' },
+    { t: 'Book florist — brief Eike and Kelly on colour palette and vision', n: 'Discuss centrepieces, ceremony arch, bouquet, buttonholes, and cake flowers', who: 'Shon', u: 'bs' },
+    { t: 'Book hair stylist and makeup artist (bride + bridal party)', n: 'Confirm full party size so they can allocate enough time and artists', who: 'Shon', u: 'bs' },
+    { t: 'Arrange suit / tuxedo hire or purchase for Josh (classic black and white)', n: 'Groomsmen attire to coordinate — book fittings from October', who: 'JS', u: 'bs' },
+    { t: 'Order bridesmaids dresses (if having bridesmaids)', n: 'Coordinate colour and style with your overall palette early', who: 'Shon', u: 'bs' },
+    { t: 'Confirm drinks package for reception with venue', n: 'R5 000 covers canapés only — confirm full reception drinks are covered', who: 'JS', u: 'bs' },
+    { t: 'Brief Eike & Kelly on décor in full — flowers, table settings, centrepieces', n: 'Decide: DIY, borrow, or hire. Ceremony and main table are the priority.', who: 'Shon', u: 'bs' },
+    { t: 'Book wedding cake / dessert table — schedule a tasting by July', n: 'Coordinate cake design with your colour palette and florist', who: 'Both', u: 'bs' },
+    { t: 'Finalise and agree on colour palette — use this to brief all vendors', n: 'Informs: flowers, décor, bridesmaids dresses, stationery, and cake', who: 'Both', u: 'bs' },
+    { t: 'Register at a gift registry', n: 'Share link with families and include in save-the-date', who: 'Both', u: 'bs' },
+    { t: 'Confirm MC for the reception', n: 'Brief them on the programme structure once draft is ready', who: 'Both', u: 'bs' },
+  ]},
+  { name: 'Phase 3 — Design & Planning (July – September 2026)', color: '#185FA5', tasks: [
+    { t: 'Finalise ceremony and reception menu with venue', n: 'Confirm dietary options — add dietary field to your RSVP process', who: 'JS', u: 'bs' },
+    { t: 'Draft wedding day run-of-show (arrival to last dance)', n: 'Share with photographer, DJ, venue coordinator, and officiant for input', who: 'Both', u: 'bs' },
+    { t: 'Send digital save-the-date to all guests', n: 'Include wedding date, location, dress code, and gift registry link', who: 'Both', u: 'bs' },
+    { t: 'Design digital wedding invitation — RSVP deadline 15 November', n: 'You noted using Claude to build this — come back when ready!', who: 'Both', u: 'bs' },
+    { t: 'Book hair and makeup trial — photograph results', n: 'Test run 2–3 months before; confirm you love the look', who: 'Shon', u: 'bs' },
+    { t: 'Book family welcome dinner venue — Friday 19 December 2026', n: 'Braai or garden dinner recommended; book accommodation block for both families', who: 'Both', u: 'bs' },
+    { t: 'Book rehearsal dinner venue — Saturday 20 December 2026', n: 'Wedding party and close family; relaxed and early evening', who: 'Both', u: 'bs' },
+    { t: 'Finalise honeymoon planning — visas, travel insurance, packing list', n: '', who: 'Both', u: 'bs' },
+    { t: 'Shop for wedding favours — something personal or locally South African', n: '', who: 'Shon', u: 'bs' },
+    { t: 'Order bridesmaids gifts and groomsmen gifts', n: 'Allow 4–6 weeks for delivery or personalisation', who: 'Both', u: 'bs' },
+    { t: 'Plan flower girl and ring bearer outfits (if applicable)', n: '', who: 'Both', u: 'bs' },
+  ]},
+  { name: 'Phase 4 — Confirmations (October – November 2026)', color: '#3B6D11', tasks: [
+    { t: 'Send wedding invitations digitally — RSVP deadline 15 November', n: '', who: 'Both', u: 'bo' },
+    { t: 'First suit fittings for Josh and groomsmen', n: 'Final fitting late November', who: 'JS', u: 'bo' },
+    { t: 'Final dress fitting — sign-off, no more alterations after this', n: '', who: 'Shon', u: 'bo' },
+    { t: 'Collect and confirm all RSVPs by 15 November', n: 'Final numbers needed for caterer and venue by 1 December', who: 'Both', u: 'bo' },
+    { t: 'Finalise seating plan based on confirmed guest numbers', n: 'Mix both families intentionally — do not seat SVH and JS sides separately', who: 'Both', u: 'bo' },
+    { t: 'Confirm final numbers with all vendors: venue, caterer, florist, cake', n: 'Most require final count 2 weeks before', who: 'JS', u: 'bo' },
+    { t: 'Collect wedding rings and confirm sizing', n: '', who: 'Both', u: 'bo' },
+    { t: 'Create detailed run-of-show document for all vendors', n: 'Share with: venue coordinator, DJ, photographer, MC, and officiant', who: 'Both', u: 'bo' },
+    { t: 'Organise weekend shuttle/transport — share schedule with all guests', n: 'WhatsApp group: accommodation → welcome dinner → ceremony → reception', who: 'Both', u: 'bo' },
+    { t: 'Confirm accommodation block for both family sides (Fri–Sun)', n: '', who: 'Both', u: 'bo' },
+    { t: 'Assign a family coordinator from each side to handle weekend queries', n: 'They field calls so you are free to enjoy your weekend', who: 'Both', u: 'bo' },
+    { t: 'Prepare vendor payment envelopes — give to trusted person to distribute', n: 'Do not handle money yourself on the wedding day', who: 'Both', u: 'bo' },
+    { t: 'Create wedding emergency kit', n: 'Safety pins, stain remover, painkillers, plasters, phone chargers, snacks, mints', who: 'Shon', u: 'bo' },
+    { t: 'Brief full bridal party on complete weekend timeline (PDF to their phones)', n: '', who: 'Both', u: 'bo' },
+  ]},
+  { name: 'Phase 5 — The Final Stretch (1–20 December 2026)', color: '#0F6E56', tasks: [
+    { t: 'Final venue walkthrough with coordinator, florist, and DJ', n: 'Walk every space: ceremony area, canapé zone, reception hall, photo spots', who: 'Both', u: 'bo' },
+    { t: 'Confirm all vendor arrival times and load-in schedule with venue', n: 'Provide each vendor one emergency contact number for the day', who: 'Both', u: 'bo' },
+    { t: 'Collect wedding dress from boutique', n: '', who: 'Shon', u: 'bo' },
+    { t: 'Final suit pick-up and confirmation', n: '', who: 'JS', u: 'bo' },
+    { t: 'Send full weekend WhatsApp update to all guests', n: 'Friday dinner details, Saturday free time, Sunday ceremony time and dress code', who: 'Both', u: 'bo' },
+    { t: 'Host family welcome dinner — Friday 19 December', n: 'Delegate on-the-night coordination to your family coordinators', who: 'Both', u: 'bo' },
+    { t: 'Attend rehearsal — walk through full ceremony at least once', n: 'Confirm entrance music cue, vow order, ring bearer timing', who: 'Both', u: 'bo' },
+    { t: 'Rehearsal dinner — wedding party and close family', n: 'Keep it light; early night, everyone needs sleep', who: 'Both', u: 'bo' },
+    { t: 'Get a full night of rest — Saturday 20 December', n: 'No late-night calls, no last-minute changes. Trust your plan.', who: 'Both', u: 'bo' },
+    { t: 'Get married and enjoy every single moment — 21 December 2026 ♡', n: 'You have planned this well. Now just be present.', who: 'JS & SVH', u: 'bo' },
+  ]}
+];
+
+// LOAD SAVED STATES
+const ck = JSON.parse(localStorage.getItem('wedding-checks') || '{}');
+
+function saveChecks() {
+  localStorage.setItem('wedding-checks', JSON.stringify(ck));
+  const n = document.getElementById('save-note');
+  n.textContent = 'Saved ✓ ' + new Date().toLocaleTimeString();
+  setTimeout(() => { n.textContent = 'Progress auto-saved in your browser'; }, 2000);
+}
+
+function tc(k) {
+  ck[k] = !ck[k];
+  const c = document.getElementById('ck' + k), t = document.getElementById('tt' + k);
+  c.classList.toggle('dn', ck[k]); c.textContent = ck[k] ? '✓' : ''; t.classList.toggle('dn', ck[k]);
+  saveChecks();
+}
+
+// BUILD PHASES
+const pc = document.getElementById('pc');
+phases.forEach((p, pi) => {
+  const blk = document.createElement('div'); blk.className = 'pb';
+  const hdr = document.createElement('div'); hdr.className = 'ph';
+  const done = p.tasks.filter((_, ti) => ck[pi + '-' + ti]).length;
+  hdr.innerHTML = `<div class="pdot" style="background:${p.color}"></div><div class="pn">${p.name}</div><div class="pm">${done}/${p.tasks.length} done</div><div class="pch" id="pch${pi}">▶</div>`;
+  hdr.onclick = () => { const b = document.getElementById('pb' + pi), c = document.getElementById('pch' + pi); b.classList.toggle('o'); c.classList.toggle('o'); };
+  const bd = document.createElement('div'); bd.className = 'pbd' + (pi === 0 ? ' o' : ''); bd.id = 'pb' + pi;
+  if (pi === 0) setTimeout(() => { const c = document.getElementById('pch0'); if (c) c.classList.add('o'); }, 30);
+  p.tasks.forEach((tk, ti) => {
+    const k = pi + '-' + ti;
+    const row = document.createElement('div'); row.className = 'tr';
+    const isDone = ck[k] || false;
+    row.innerHTML = `<div class="chk${isDone ? ' dn' : ''}" id="ck${k}" onclick="tc('${k}')">${isDone ? '✓' : ''}</div><div><div class="tt${isDone ? ' dn' : ''}" id="tt${k}">${tk.t}</div>${tk.n ? `<div class="tn">${tk.n}</div>` : ''}${tk.who ? `<div class="twho">→ ${tk.who}</div>` : ''}</div><span class="bdg ${tk.u}">${tk.u === 'bu' ? 'Now' : tk.u === 'bs' ? 'Soon' : 'On track'}</span>`;
+    bd.appendChild(row);
+  });
+  blk.appendChild(hdr); blk.appendChild(bd); pc.appendChild(blk);
+});
+
+// QUOTES
+const quotes = [
+  { s: 'Officiant', d: 'Feb 2026', u: 'ut', ul: 'URGENT', n: 'Legal — do not delay' },
+  { s: 'Photographer', d: 'May 2026', u: 'ut', ul: 'Book NOW', n: 'Charl quoted; get 2 more' },
+  { s: 'Videographer', d: 'May 2026', u: 'ut', ul: 'Book NOW', n: 'Optional but recommended' },
+  { s: 'Honeymoon', d: 'May 2026', u: 'ut', ul: 'Book NOW', n: 'Dec peak — flights fill fast' },
+  { s: 'DJ / Nugeon', d: 'May 2026', u: 'ut', ul: 'Book NOW', n: 'Confirm Joshua for canapés' },
+  { s: 'Wedding dress', d: 'June 2026', u: 'ut', ul: 'Book NOW', n: '5–6 months production time' },
+  { s: 'Hair stylist', d: 'July 2026', u: 'us', ul: 'Book soon', n: 'Full party size upfront' },
+  { s: 'Makeup artist', d: 'July 2026', u: 'us', ul: 'Book soon', n: 'Trial by September' },
+  { s: 'Florist (Eike & Kelly)', d: 'July 2026', u: 'us', ul: 'Book soon', n: 'Brief on palette early' },
+  { s: 'Suits — Josh', d: 'Aug 2026', u: 'us', ul: 'Book soon', n: 'Fittings from October' },
+  { s: 'Bridesmaids dresses', d: 'Aug 2026', u: 'us', ul: 'Book soon', n: 'Allow alteration time' },
+  { s: 'Wedding cake', d: 'Sep 2026', u: 'uo', ul: 'On track', n: 'Schedule a tasting first' },
+  { s: 'Stationery / digital', d: 'Sep 2026', u: 'uo', ul: 'On track', n: 'Build invite with Claude!' },
+  { s: 'Transport / shuttle', d: 'Oct 2026', u: 'uo', ul: 'On track', n: 'Guest + bridal party routes' },
+];
+const qg = document.getElementById('qg');
+quotes.forEach(q => {
+  const c = document.createElement('div'); c.className = 'qc';
+  c.innerHTML = `<div class="qs">${q.s}</div><div class="qd">Deadline: ${q.d}</div><div class="qd" style="margin-top:2px">${q.n}</div><div class="qu ${q.u}">${q.ul}</div>`;
+  qg.appendChild(c);
+});
+
+// SAVINGS ROWS
+const savData = [
+  { m: 'November 2025', g: 'R8,333', cum: 'R8,333', note: 'Shortlist venues — done ✓' },
+  { m: 'December 2025', g: 'R8,333', cum: 'R16,666', note: 'Secure venue deposit' },
+  { m: 'January 2026', g: 'R8,333', cum: 'R24,999', note: 'Book photographer & DJ' },
+  { m: 'February 2026', g: 'R8,333', cum: 'R33,332', note: 'Order attire, 2nd venue payment' },
+  { m: 'March 2026', g: 'R8,333', cum: 'R41,665', note: 'Book florist, décor, cake' },
+  { m: 'April 2026', g: 'R8,333', cum: 'R49,998', note: 'Pay photography balance' },
+  { m: 'May 2026', g: 'R8,333', cum: 'R58,331', note: 'Rings + save the date out' },
+  { m: 'June 2026', g: 'R8,333', cum: 'R66,664', note: 'Hair & makeup trials' },
+  { m: 'July 2026', g: 'R8,333', cum: 'R74,997', note: 'Balance payments begin' },
+  { m: 'August 2026', g: 'R8,333', cum: 'R83,330', note: 'Pay remaining venue/catering' },
+  { m: 'September 2026', g: 'R8,333', cum: 'R91,663', note: 'Final vendor balances' },
+  { m: 'October 2026', g: 'R8,337', cum: 'R100,000', note: 'Emergency fund & tips ready' },
+];
+const sr = document.getElementById('savrows');
+savData.forEach((s, i) => {
+  const row = document.createElement('div');
+  row.style.cssText = `display:grid;grid-template-columns:140px 65px 85px 1fr;gap:10px;align-items:center;padding:9px 16px;border-bottom:${i < savData.length - 1 ? '1px solid var(--border)' : 'none'};font-size:12px`;
+  row.innerHTML = `<div style="color:var(--text)">${s.m}</div><div style="color:var(--text2)">${s.g}</div><div style="font-weight:500;color:var(--text)">${s.cum}</div><div style="color:var(--text2)">${s.note}</div>`;
+  sr.appendChild(row);
+});
+
+// BUDGET ROWS
+const budData = [
+  { cat: 'Venue & catering (80 @ R550)', amt: 'R44 000', note: 'Increase if >80 guests confirmed' },
+  { cat: 'Drinks — champagne & canapés', amt: 'R5 000', note: 'Confirm reception drinks separately' },
+  { cat: 'Surcharge (12%)', amt: 'R5 880', note: 'Applied to catering total' },
+  { cat: 'Photography & videography', amt: 'R15 000', note: 'Charl quote — compare 2 more' },
+  { cat: 'Suit & accessories', amt: 'R8 000', note: 'Classic black & white tuxedo' },
+  { cat: 'Dress & accessories', amt: 'R5 000', note: 'Budget likely needs revisiting' },
+  { cat: 'Décor, flowers & cake', amt: 'R6 000', note: 'Eike & Kelly — DIY where possible' },
+  { cat: 'Music / DJ / sound', amt: 'R0', note: 'Unconfirmed — add once Nugeon quotes' },
+  { cat: 'Rings', amt: 'R5 000', note: 'Simple gold/silver bands' },
+  { cat: 'Invitations & stationery', amt: 'R3 000', note: 'Digital route planned' },
+  { cat: 'Hair, makeup & beauty', amt: 'R3 000', note: 'Trials + day-of for bride' },
+  { cat: 'Officiant & legal fees', amt: 'R2 000', note: 'Home Affairs registration needed' },
+  { cat: 'Accommodation', amt: 'R10 000', note: 'Both families block-booked' },
+  { cat: 'Contingency / miscellaneous', amt: 'R7 000', note: 'Protect this — do not raid it' },
+];
+const br = document.getElementById('budrows');
+budData.forEach(b => {
+  const row = document.createElement('div'); row.className = 'bud-row';
+  row.innerHTML = `<div><div style="color:var(--text)">${b.cat}</div><div class="bud-note">${b.note}</div></div><div style="font-weight:500;color:var(--text);white-space:nowrap">${b.amt}</div>`;
+  br.appendChild(row);
+});
+const tot = document.createElement('div'); tot.className = 'bud-total';
+tot.innerHTML = '<div>Total budget</div><div>R118 880</div>';
+br.appendChild(tot);
+
+// GUEST LISTS
+const svh = [
+  'Belinda Van Harte','Leticia Diest','Clint Diest','Harper Diest','Reign Diest',
+  'Godfrey Van Harte','Felicia Van Harte','Bradley','Lucille','Robin',
+  'Chelsea','Noel','Lene','Avril','Valda','Tyrone','Gran','Lex','Zhu','Grant',
+  'Kelly','Lauren','Kim','Lucia','Shaun','Eike','Bran','Huey','Nicole','Nana',
+  'Dale','Joylin','Tania','Dwayne','Lindelani','Lukho','Zandi','Ndina','Kirsten','Nonku'
+];
+const js = [
+  'Mom','X — confirm name','Mbali','Percy','Percy wife','Kids? (confirm)','Uncle','Aunt',
+  'Mandla','Mandla wife','Mums friend','Omanda jnr','Omanda snr','Kudzi','Wesley',
+  'Beauty','Tino','Tino +1','Suares','Taps','Taps wife','Nono','Charlene','Nosi',
+  'Mums friend','Mums friend','Kudzi','Kylie','Nugeon','Raisa','Wilson','Shannon',
+  'Mike','Kennedy','Roxanne','Ziggy','Cebile','Nugeon ⚠ dup?','Kylie ⚠ dup?'
+];
+const svhL = document.getElementById('svh-list');
+const jsL = document.getElementById('js-list');
+svh.forEach((n, i) => {
+  const r = document.createElement('div'); r.className = 'gc-row';
+  const needsPlus = n === 'Lindelani';
+  r.innerHTML = `<span class="gc-num">${i + 1}</span><span>${n}</span>${needsPlus ? '<span class="gc-plus">+1 needed</span>' : ''}`;
+  svhL.appendChild(r);
+});
+js.forEach((n, i) => {
+  const r = document.createElement('div'); r.className = 'gc-row';
+  const flag = n.includes('⚠') || n.includes('confirm');
+  r.innerHTML = `<span class="gc-num">${i + 41}</span><span class="${flag ? 'flag' : ''}">${n}</span>`;
+  jsL.appendChild(r);
+});
+</script>
+</body>
+</html>
